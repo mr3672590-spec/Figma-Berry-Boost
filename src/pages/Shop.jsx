@@ -542,7 +542,7 @@ const Shop = () => {
                       mt-5
                       w-full
                       bg-[#4d7cff]
-                      hover:bg-[#315ee8]
+                      hover:bg-[#0000FF]
                       text-white
                       py-3
                       rounded-xl
