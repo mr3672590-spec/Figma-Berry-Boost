@@ -9,7 +9,6 @@ import {
   FaArrowRight,
 } from "react-icons/fa";
 
-
 import blueberryCan from "../assets/blueberry-can.png";
 
 const About = () => {
@@ -22,7 +21,7 @@ const About = () => {
 
       <section className="relative min-h-[620px] sm:min-h-[680px] lg:min-h-[760px] overflow-hidden">
 
-        {/* FULL BACKGROUND IMAGE */}
+        {/* FULL BACKGROUND IMAGE - NO SHADOW / NO OVERLAY */}
         <div
           className="
             absolute
@@ -30,41 +29,11 @@ const About = () => {
             bg-cover
             bg-center
             bg-no-repeat
-            scale-105
           "
           style={{
             backgroundImage: `url(${blueberryCan})`,
             backgroundPosition: "center center",
           }}
-        />
-
-        {/* Purple background tint */}
-        <div className="absolute inset-0 bg-[#eee4ff]/65" />
-
-        {/* Desktop left gradient */}
-        <div
-          className="
-            absolute
-            inset-0
-            hidden
-            lg:block
-            bg-gradient-to-r
-            from-[#eee4ff]
-            via-[#eee4ff]/90
-            via-55%
-            to-[#5b2bbf]/10
-          "
-        />
-
-        {/* Mobile gradient */}
-        <div
-          className="
-            absolute
-            inset-0
-            lg:hidden
-            bg-gradient-to-b
-            to-[#5b2bbf]/20
-          "
         />
 
         {/* HERO CONTENT */}
@@ -82,14 +51,13 @@ const About = () => {
 
             <div className="max-w-xl py-16 sm:py-20 lg:py-24">
 
-              {/* Badge */}
+              {/* BADGE */}
               <span
                 className="
                   inline-flex
                   items-center
                   gap-2
-                  bg-white/95
-                  backdrop-blur-sm
+                  bg-white
                   text-[#5b2bbf]
                   px-5
                   py-2.5
@@ -97,14 +65,13 @@ const About = () => {
                   text-[10px]
                   font-extrabold
                   tracking-[2px]
-                  shadow-lg
                 "
               >
                 <FaLeaf size={11} />
                 ABOUT US
               </span>
 
-              {/* Heading */}
+              {/* HEADING */}
               <h1
                 className="
                   mt-6
@@ -114,27 +81,27 @@ const About = () => {
                   md:text-7xl
                   lg:text-[76px]
                   font-extrabold
-                  text-[#241044]
+                  text-[#FF00FF]
                 "
               >
                 Goodness You
                 <br />
 
-                <span className="text-[#5b2bbf]">
+                <span className="text-[#00FFFF]">
                   Can Taste.
                 </span>
               </h1>
 
-              {/* Description */}
+              {/* DESCRIPTION */}
               <p
                 className="
                   mt-6
                   max-w-lg
-                  text-sm
+                  text-[15px]
                   sm:text-base
                   lg:text-lg
                   leading-7
-                  text-gray-700
+                  text-[#fff]
                 "
               >
                 We believe great-tasting drinks should be made with
@@ -142,7 +109,7 @@ const About = () => {
                 with real fruit goodness and refreshing flavour.
               </p>
 
-              {/* Buttons */}
+              {/* BUTTONS */}
               <div className="flex flex-row flex-wrap items-center gap-3 mt-8">
 
                 <Link
@@ -160,7 +127,6 @@ const About = () => {
                     rounded-full
                     text-xs
                     font-bold
-                    shadow-xl
                     hover:bg-[#45209a]
                     hover:scale-105
                     transition
@@ -184,7 +150,6 @@ const About = () => {
                     rounded-full
                     text-xs
                     font-bold
-                    shadow-lg
                     hover:bg-[#f8f4ff]
                     hover:scale-105
                     transition
@@ -196,16 +161,17 @@ const About = () => {
 
               </div>
 
-              {/* Trust Features */}
+              {/* TRUST FEATURES */}
               <div className="flex flex-wrap gap-x-5 gap-y-3 mt-9">
 
+                {/* REAL FRUIT */}
                 <div className="flex items-center gap-2">
                   <div
                     className="
-                      w-8 h-8
+                      w-8
+                      h-8
                       rounded-full
                       bg-white
-                      shadow-md
                       flex
                       items-center
                       justify-center
@@ -217,18 +183,19 @@ const About = () => {
                     />
                   </div>
 
-                  <span className="text-[10px] sm:text-xs font-bold text-[#241044]">
+                  <span className="text-[12px] sm:text-xs font-bold text-[#fff]">
                     Real Fruit
                   </span>
                 </div>
 
+                {/* NATURAL INGREDIENTS */}
                 <div className="flex items-center gap-2">
                   <div
                     className="
-                      w-8 h-8
+                      w-8
+                      h-8
                       rounded-full
                       bg-white
-                      shadow-md
                       flex
                       items-center
                       justify-center
@@ -240,18 +207,19 @@ const About = () => {
                     />
                   </div>
 
-                  <span className="text-[10px] sm:text-xs font-bold text-[#241044]">
+                  <span className="text-[12px] sm:text-xs font-bold text-[#fff]">
                     Natural Ingredients
                   </span>
                 </div>
 
+                {/* GREAT TASTE */}
                 <div className="flex items-center gap-2">
                   <div
                     className="
-                      w-8 h-8
+                      w-8
+                      h-8
                       rounded-full
                       bg-white
-                      shadow-md
                       flex
                       items-center
                       justify-center
@@ -263,7 +231,7 @@ const About = () => {
                     />
                   </div>
 
-                  <span className="text-[10px] sm:text-xs font-bold text-[#241044]">
+                  <span className="text-[12px] sm:text-xs font-bold text-[#fff]">
                     Great Taste
                   </span>
                 </div>
@@ -271,23 +239,10 @@ const About = () => {
               </div>
 
             </div>
-          </div>
-        </div>
 
-        {/* Bottom Fade */}
-        <div
-          className="
-            absolute
-            bottom-0
-            left-0
-            right-0
-            h-20
-            bg-gradient-to-t
-            from-white/50
-            to-transparent
-            z-10
-          "
-        />
+          </div>
+
+        </div>
 
       </section>
 
@@ -346,6 +301,7 @@ const About = () => {
 
             </div>
 
+
             {/* CONTENT */}
             <div>
 
@@ -386,6 +342,7 @@ const About = () => {
 
                 <div className="flex items-center gap-3">
                   <FaCheckCircle className="text-[#5b2bbf]" />
+
                   <span className="text-sm font-medium text-gray-700">
                     Made with real fruit
                   </span>
@@ -393,6 +350,7 @@ const About = () => {
 
                 <div className="flex items-center gap-3">
                   <FaCheckCircle className="text-[#5b2bbf]" />
+
                   <span className="text-sm font-medium text-gray-700">
                     No unnecessary ingredients
                   </span>
@@ -400,6 +358,7 @@ const About = () => {
 
                 <div className="flex items-center gap-3">
                   <FaCheckCircle className="text-[#5b2bbf]" />
+
                   <span className="text-sm font-medium text-gray-700">
                     Delicious and refreshing
                   </span>
@@ -441,9 +400,10 @@ const About = () => {
 
           </div>
 
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
 
-            {/* Natural */}
+            {/* NATURAL */}
             <div
               className="
                 bg-white
@@ -485,7 +445,7 @@ const About = () => {
             </div>
 
 
-            {/* Made With Love */}
+            {/* MADE WITH LOVE */}
             <div
               className="
                 bg-white
@@ -527,7 +487,7 @@ const About = () => {
             </div>
 
 
-            {/* Better Choices */}
+            {/* BETTER CHOICES */}
             <div
               className="
                 bg-white
@@ -677,8 +637,6 @@ const About = () => {
                     duration-500
                   "
                 />
-
-               
 
               </div>
 
