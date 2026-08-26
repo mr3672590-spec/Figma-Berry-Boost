@@ -792,7 +792,6 @@ const Home = () => {
                   relative
                   z-10
                   w-64
-                  rounded-xl
                   sm:w-72
                   lg:w-80
                   object-contain
