@@ -62,7 +62,7 @@ const About = () => {
                   px-5
                   py-2.5
                   rounded-full
-                  text-[10px]
+                  text-[13px]
                   font-extrabold
                   tracking-[2px]
                 "
@@ -125,7 +125,7 @@ const About = () => {
                     sm:px-7
                     py-3.5
                     rounded-full
-                    text-xs
+                    text-[16px]
                     font-bold
                     hover:bg-[#45209a]
                     hover:scale-105
@@ -148,7 +148,7 @@ const About = () => {
                     px-7
                     py-3.5
                     rounded-full
-                    text-xs
+                    text-[16px]
                     font-bold
                     hover:bg-[#f8f4ff]
                     hover:scale-105
