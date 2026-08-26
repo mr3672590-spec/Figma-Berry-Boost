@@ -537,7 +537,7 @@ const Shop = () => {
                   {/* Add Cart */}
 
                   <Link
-                    to="/checkout"
+                    to="/cart"
                     className="
                       mt-5
                       w-full
