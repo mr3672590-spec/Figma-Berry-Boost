@@ -63,8 +63,6 @@ const About = () => {
             inset-0
             lg:hidden
             bg-gradient-to-b
-            from-[#eee4ff]/95
-            via-[#eee4ff]/65
             to-[#5b2bbf]/20
           "
         />
@@ -336,6 +334,7 @@ const About = () => {
                     w-52
                     sm:w-64
                     lg:w-72
+                    rounded-xl
                     mx-auto
                     drop-shadow-2xl
                     hover:scale-105
@@ -669,6 +668,7 @@ const About = () => {
                     relative
                     z-10
                     w-52
+                    rounded-xl
                     sm:w-64
                     lg:w-72
                     drop-shadow-2xl

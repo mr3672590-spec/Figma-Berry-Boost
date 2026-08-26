@@ -144,9 +144,7 @@ const Shop = () => {
   return (
     <main className="min-h-screen bg-gray-50">
 
-      {/* =====================================================
-          PAGE HEADER
-      ====================================================== */}
+      {/* ================= PAGE HEADER ================= */}
 
       <section className="bg-[#f4f8ff] py-16">
         <div className="max-w-7xl mx-auto px-4 text-center">
@@ -181,9 +179,7 @@ const Shop = () => {
         </div>
       </section>
 
-      {/* =====================================================
-          SHOP CONTENT
-      ====================================================== */}
+      {/* ================= SHOP CONTENT ================= */}
 
       <section className="max-w-7xl mx-auto px-4 py-12">
 
@@ -196,7 +192,13 @@ const Shop = () => {
           <div className="relative w-full lg:w-96">
 
             <FaSearch
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+              className="
+                absolute
+                left-4
+                top-1/2
+                -translate-y-1/2
+                text-gray-400
+              "
             />
 
             <input
@@ -310,14 +312,16 @@ const Shop = () => {
 
         {filteredProducts.length > 0 ? (
 
-          <div className="
-            grid
-            grid-cols-1
-            sm:grid-cols-2
-            lg:grid-cols-3
-            xl:grid-cols-4
-            gap-6
-          ">
+          <div
+            className="
+              grid
+              grid-cols-1
+              sm:grid-cols-2
+              lg:grid-cols-3
+              xl:grid-cols-4
+              gap-6
+            "
+          >
 
             {filteredProducts.map((product) => (
 
@@ -338,12 +342,15 @@ const Shop = () => {
 
                 {/* ================= IMAGE ================= */}
 
-                <div className="
-                  relative
-                  bg-gray-100
-                  h-72
-                  overflow-hidden
-                ">
+                <div
+                  className="
+                    relative
+                    bg-gray-100
+                    h-72
+                    rounded-xl
+                    overflow-hidden
+                  "
+                >
 
                   <img
                     src={product.image}
@@ -353,6 +360,7 @@ const Shop = () => {
                       h-full
                       object-contain
                       p-5
+                      rounded-xl
                       group-hover:scale-105
                       transition
                       duration-500
@@ -361,18 +369,20 @@ const Shop = () => {
 
                   {/* SALE */}
 
-                  <div className="
-                    absolute
-                    top-4
-                    left-4
-                    bg-red-500
-                    text-white
-                    text-xs
-                    font-bold
-                    px-3
-                    py-1.5
-                    rounded-full
-                  ">
+                  <div
+                    className="
+                      absolute
+                      top-4
+                      left-4
+                      bg-red-500
+                      text-white
+                      text-xs
+                      font-bold
+                      px-3
+                      py-1.5
+                      rounded-full
+                    "
+                  >
                     SALE
                   </div>
 
@@ -442,14 +452,16 @@ const Shop = () => {
 
                   {/* Category */}
 
-                  <p className="
-                    text-xs
-                    uppercase
-                    tracking-wider
-                    text-[#4d7cff]
-                    font-semibold
-                    mb-2
-                  ">
+                  <p
+                    className="
+                      text-xs
+                      uppercase
+                      tracking-wider
+                      text-[#4d7cff]
+                      font-semibold
+                      mb-2
+                    "
+                  >
                     {product.category}
                   </p>
 
@@ -457,14 +469,16 @@ const Shop = () => {
 
                   <Link to={`/product/${product.id}`}>
 
-                    <h3 className="
-                      text-lg
-                      font-bold
-                      text-gray-900
-                      hover:text-[#4d7cff]
-                      transition
-                      line-clamp-1
-                    ">
+                    <h3
+                      className="
+                        text-lg
+                        font-bold
+                        text-gray-900
+                        hover:text-[#4d7cff]
+                        transition
+                        line-clamp-1
+                      "
+                    >
                       {product.name}
                     </h3>
 
@@ -498,28 +512,32 @@ const Shop = () => {
 
                   <div className="flex items-center gap-3 mt-4">
 
-                    <span className="
-                      text-xl
-                      font-bold
-                      text-gray-900
-                    ">
+                    <span
+                      className="
+                        text-xl
+                        font-bold
+                        text-gray-900
+                      "
+                    >
                       ৳{product.price}
                     </span>
 
-                    <span className="
-                      text-sm
-                      text-gray-400
-                      line-through
-                    ">
+                    <span
+                      className="
+                        text-sm
+                        text-gray-400
+                        line-through
+                      "
+                    >
                       ৳{product.oldPrice}
                     </span>
 
                   </div>
 
                   {/* Add Cart */}
-                   
+
                   <Link
-                    to ="/checkout"
+                    to="/checkout"
                     className="
                       mt-5
                       w-full
@@ -540,7 +558,6 @@ const Shop = () => {
                     <FaShoppingCart />
                     Add to Cart
                   </Link>
-                  
 
                 </div>
 
@@ -554,24 +571,28 @@ const Shop = () => {
 
           /* ================= NO PRODUCT ================= */
 
-          <div className="
-            bg-white
-            rounded-2xl
-            py-20
-            text-center
-            border
-            border-gray-100
-          ">
+          <div
+            className="
+              bg-white
+              rounded-2xl
+              py-20
+              text-center
+              border
+              border-gray-100
+            "
+          >
 
             <div className="text-5xl mb-5">
               🔍
             </div>
 
-            <h3 className="
-              text-2xl
-              font-bold
-              text-gray-900
-            ">
+            <h3
+              className="
+                text-2xl
+                font-bold
+                text-gray-900
+              "
+            >
               No Products Found
             </h3>
 
