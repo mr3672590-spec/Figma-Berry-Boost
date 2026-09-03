@@ -207,9 +207,7 @@ const Contact = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-7">
 
-            {/* =================================================
-                LEFT CONTENT
-            ================================================= */}
+           
 
             <div className="lg:col-span-2 bg-[#5b2bbf] rounded-3xl p-8 sm:p-10 text-white">
 
@@ -331,10 +329,7 @@ const Contact = () => {
             </div>
 
 
-            {/* =================================================
-                RIGHT FORM
-            ================================================= */}
-
+           
             <div className="lg:col-span-3 bg-white border border-gray-100 rounded-3xl p-6 sm:p-8 shadow-sm">
 
               <div className="mb-7">
@@ -476,9 +471,6 @@ const Contact = () => {
       </section>
 
 
-      {/* =====================================================
-          FAQ / CTA
-      ====================================================== */}
 
       <section className="pb-16">
 

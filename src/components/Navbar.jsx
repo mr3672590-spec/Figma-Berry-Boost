@@ -64,7 +64,7 @@ const Navbar = () => {
             <button
               type="button"
               aria-label="Search"
-              className="w-9 h-9 rounded-full flex items-center justify-center text-gray-600 hover:bg-[#eee4ff] hover:text-[#5b2bbf] transition cursor-pointer"
+              className="w-9 h-9 rounded-full flex items-center justify-center text-gray-600 hover:bg-[#eee4ff] hover:text-[#0000FF] transition cursor-pointer"
             >
               <FaSearch size={13} />
             </button>
