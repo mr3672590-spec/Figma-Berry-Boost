@@ -1,189 +1,237 @@
-import React, { useState } from "react";
+
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
   FaArrowRight,
-  FaCheckCircle,
-  FaLeaf,
+  FaStar,
   FaHeart,
-  FaShieldAlt,
-  FaSeedling,
-  FaChevronLeft,
-  FaChevronRight,
   FaTruck,
+  FaShieldAlt,
+  FaLeaf,
+  FaCheckCircle,
+  FaSeedling,
 } from "react-icons/fa";
 
-import blueberryCan from "../assets/blueberry-can.png";
+// ================= IMAGES =================
+
 import strawberryHero from "../assets/strawberryHero.png";
 import kiwi2 from "../assets/kiwi2.png";
 import blueberryHero from "../assets/blueberryHero.png";
+import blueberryCan from "../assets/blueberry-can.png";
 
 // =====================================================
 // HERO SLIDES
 // =====================================================
 
-const slides = [
+const heroSlides = [
   {
     id: 1,
-    image: blueberryHero,
+    image: strawberryHero,
     badge: "FRESH • NATURAL • DELICIOUS",
-    title: "Good Drinks.",
-    highlight: "Good Ingredients.",
+    title1: "Taste The",
+    highlight1: "Strawberry Freshness.",
+    title2: "Feel The",
+    highlight2: "Goodness.",
     description:
-      "We create delicious fruit drinks made with carefully selected ingredients to bring freshness, flavour and goodness to every sip.",
+      "Enjoy the delicious taste of fresh strawberries in every refreshing sip.",
   },
   {
     id: 2,
-    image: strawberryHero,
+    image: kiwi2,
     badge: "REAL FRUIT • REAL TASTE",
-    title: "Fresh Taste.",
-    highlight: "Pure Happiness.",
+    title1: "Taste The",
+    highlight1: "Kiwi Freshness.",
+    title2: "Feel The",
+    highlight2: "Goodness.",
     description:
-      "Enjoy refreshing strawberry flavour made to bring a delicious and fruity experience to every moment.",
+      "Enjoy the delicious taste of carefully selected kiwi fruits in every refreshing sip.",
   },
   {
     id: 3,
-    image: kiwi2,
+    image: blueberryHero,
     badge: "HEALTHY • COOL • REFRESHING",
-    title: "Natural Flavour.",
-    highlight: "Fresh Every Sip.",
+    title1: "Taste The",
+    highlight1: "Blueberry Freshness.",
+    title2: "Enjoy The",
+    highlight2: "Goodness.",
     description:
-      "Discover refreshing kiwi goodness with delicious flavour and a fresh feeling in every sip.",
+      "Refresh your day with delicious blueberry drinks made with real fruit goodness.",
   },
 ];
+
+// =====================================================
+// ABOUT
+// =====================================================
 
 const About = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // =====================================================
-  // NEXT SLIDE
+  // AUTO SLIDER
   // =====================================================
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) =>
+        prev === heroSlides.length - 1 ? 0 : prev + 1
+      );
+    }, 5000);
 
-  // =====================================================
-  // PREVIOUS SLIDE
-  // =====================================================
+    return () => clearInterval(interval);
+  }, []);
 
-  const prevSlide = () => {
-    setCurrentSlide(
-      (prev) => (prev - 1 + slides.length) % slides.length
-    );
-  };
+  const currentHero = heroSlides[currentSlide];
 
   return (
-    <div className="min-h-screen bg-white text-[#241044] overflow-hidden">
+    <main className="bg-white text-[#241044] overflow-hidden">
 
       {/* =====================================================
           HERO SECTION
       ===================================================== */}
 
-      <section className="relative w-full h-screen overflow-hidden flex items-center">
+      <section className="relative w-full h-[650px] sm:h-[700px] overflow-hidden flex items-center">
 
         {/* =====================================================
-            SLIDER
+            BACKGROUND SLIDES
         ===================================================== */}
 
-        <div className="absolute inset-0 overflow-hidden">
-
+        {heroSlides.map((slide, index) => (
           <div
-            className="flex h-full transition-transform duration-700 ease-in-out"
-            style={{
-              transform: `translateX(-${currentSlide * 100}%)`,
-            }}
+            key={slide.id}
+            className={`
+              absolute inset-0 w-full h-full
+              transition-transform duration-1000 ease-in-out
+              ${
+                index === currentSlide
+                  ? "translate-x-0 z-10"
+                  : index < currentSlide
+                  ? "translate-x-full z-0"
+                  : "-translate-x-full z-0"
+              }
+            `}
           >
 
-            {slides.map((slide) => (
-              <div
-                key={slide.id}
-                className="relative min-w-full h-full flex-shrink-0"
-              >
+            <img
+              src={slide.image}
+              alt={`Hero Banner ${slide.id}`}
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
 
-                <img
-                  src={slide.image}
-                  alt={slide.title}
-                  className="absolute inset-0 w-full h-full object-cover object-center"
-                />
+            {/* Dark Overlay */}
 
-                {/* Dark Overlay */}
+            <div className="absolute inset-0 bg-black/30" />
 
-                <div className="absolute inset-0 bg-black/35" />
+            {/* Purple Overlay */}
 
-                {/* Purple Overlay */}
-
-                <div className="absolute inset-0 bg-[#3d176d]/20" />
-
-              </div>
-            ))}
+            <div className="absolute inset-0 bg-[#3d176d]/15" />
 
           </div>
-
-        </div>
+        ))}
 
         {/* =====================================================
             HERO CONTENT
         ===================================================== */}
 
-        <div className="relative z-20 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="relative z-20 w-full max-w-7xl mx-auto px-5 sm:px-7 md:px-8 lg:px-10 xl:px-12">
 
-          <div className="max-w-2xl">
+          <div className="flex flex-col items-start justify-center w-full max-w-[620px] py-16">
 
-            {/* Badge */}
+            {/* =================================================
+                BADGE
+            ================================================= */}
 
-            <div className="inline-flex items-center gap-2 bg-white/95 px-4 sm:px-5 py-2.5 rounded-full shadow-xl">
+            <div className="inline-flex items-center gap-2 bg-white/95 backdrop-blur-sm px-4 sm:px-5 py-2 sm:py-2.5 rounded-full shadow-lg">
 
               <FaLeaf
                 className="text-[#5b2bbf]"
                 size={12}
               />
 
-              <span className="text-[#5b2bbf] text-[9px] sm:text-[10px] font-extrabold tracking-[1.5px] sm:tracking-[2px]">
-                {slides[currentSlide].badge}
+              <span className="text-[#5b2bbf] text-[8px] sm:text-[10px] font-extrabold tracking-[1.5px] sm:tracking-[2px] whitespace-nowrap">
+                {currentHero.badge}
               </span>
 
             </div>
 
-            {/* Heading */}
+            {/* =================================================
+                TITLE
+            ================================================= */}
 
-            <h1 className="mt-6 sm:mt-7 text-[42px] leading-[0.98] sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white">
+            <h1 className="mt-5 sm:mt-6 text-[40px] leading-[0.98] sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[70px] font-extrabold text-white">
 
-              {slides[currentSlide].title}
+              {currentHero.title1}
 
               <br />
 
               <span className="text-[#d9c4ff]">
-                {slides[currentSlide].highlight}
+                {currentHero.highlight1}
+              </span>
+
+              <br />
+
+              {currentHero.title2}
+
+              <br />
+
+              <span className="text-[#d9c4ff]">
+                {currentHero.highlight2}
               </span>
 
             </h1>
 
-            {/* Description */}
+            {/* =================================================
+                DESCRIPTION
+            ================================================= */}
 
-            <p className="mt-5 sm:mt-6 max-w-xl text-sm sm:text-base md:text-lg leading-6 sm:leading-7 text-white/90">
-              {slides[currentSlide].description}
+            <p className="mt-5 sm:mt-6 max-w-[540px] text-[13px] sm:text-sm md:text-base leading-6 sm:leading-7 text-white/90">
+              {currentHero.description}
             </p>
 
-            {/* Buttons */}
+            {/* =================================================
+                BUTTONS
+            ================================================= */}
 
-            <div className="flex flex-wrap gap-3 mt-7 sm:mt-8">
+            <div className="flex flex-row flex-wrap items-center gap-2 sm:gap-3 mt-7">
 
               <Link
                 to="/shop"
-                className="inline-flex items-center gap-2 bg-[#5b2bbf] text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-xs sm:text-sm font-bold shadow-2xl hover:bg-[#45209a] hover:scale-105 transition"
+                className="inline-flex items-center justify-center gap-2 bg-[#5b2bbf] text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-full text-[11px] sm:text-xs font-bold shadow-xl hover:bg-[#45209a] hover:scale-105 transition duration-300"
               >
                 Shop Now
 
-                <FaArrowRight size={11} />
+                <FaArrowRight size={10} />
+
               </Link>
 
               <a
                 href="#about-story"
-                className="inline-flex items-center bg-white text-[#5b2bbf] px-6 sm:px-8 py-3.5 sm:py-4 rounded-full text-xs sm:text-sm font-bold shadow-2xl hover:bg-[#f7f2ff] hover:scale-105 transition"
+                className="inline-flex items-center justify-center bg-white text-[#5b2bbf] px-5 sm:px-7 py-3 sm:py-3.5 rounded-full text-[11px] sm:text-xs font-bold shadow-xl hover:bg-[#f8f4ff] hover:scale-105 transition duration-300"
               >
                 Our Story
               </a>
+
+            </div>
+
+            {/* =================================================
+                RATING
+            ================================================= */}
+
+            <div className="flex items-center gap-3 mt-7">
+
+              <div className="flex items-center gap-1 text-[#f5b800]">
+
+                <FaStar size={11} />
+                <FaStar size={11} />
+                <FaStar size={11} />
+                <FaStar size={11} />
+                <FaStar size={11} />
+
+              </div>
+
+              <span className="text-[10px] sm:text-xs font-semibold text-white">
+                4.9/5 from happy customers
+              </span>
 
             </div>
 
@@ -192,49 +240,23 @@ const About = () => {
         </div>
 
         {/* =====================================================
-            PREVIOUS BUTTON
-        ===================================================== */}
-
-        <button
-          type="button"
-          onClick={prevSlide}
-          aria-label="Previous slide"
-          className="absolute z-30 cursor-pointer left-3 sm:left-6 lg:left-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center hover:bg-white hover:text-[#5b2bbf] hover:scale-110 transition duration-300"
-        >
-          <FaChevronLeft size={14} />
-        </button>
-
-        {/* =====================================================
-            NEXT BUTTON
-        ===================================================== */}
-
-        <button
-          type="button"
-          onClick={nextSlide}
-          aria-label="Next slide"
-          className="absolute z-30 cursor-pointer right-3 sm:right-6 lg:right-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white flex items-center justify-center hover:bg-white hover:text-[#5b2bbf] hover:scale-110 transition duration-300"
-        >
-          <FaChevronRight size={14} />
-        </button>
-
-        {/* =====================================================
             SLIDER DOTS
         ===================================================== */}
 
-        <div className="absolute z-30 bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-2.5">
+        <div className="absolute z-30 bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-3">
 
-          {slides.map((slide, index) => (
+          {heroSlides.map((slide, index) => (
             <button
               key={slide.id}
               type="button"
               onClick={() => setCurrentSlide(index)}
               aria-label={`Go to slide ${index + 1}`}
               className={`
-                h-2 rounded-full transition-all duration-300
+                rounded-full transition-all duration-500
                 ${
                   index === currentSlide
-                    ? "w-8 bg-white"
-                    : "w-2 bg-white/50 hover:bg-white/80"
+                    ? "w-8 h-2 bg-white"
+                    : "w-2 h-2 bg-white/50 hover:bg-white/80"
                 }
               `}
             />
@@ -248,81 +270,109 @@ const About = () => {
           FEATURES
       ===================================================== */}
 
-      <section className="py-16 sm:py-20 bg-[#faf8ff]">
+      <section className="bg-white border-b border-gray-100">
 
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 lg:grid-cols-4">
 
-            {/* Card 1 */}
+            {/* Natural Ingredients */}
 
-            <div className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl transition duration-300">
+            <div className="flex items-center gap-3 py-6 lg:py-7">
 
-              <div className="w-12 h-12 rounded-2xl bg-[#eee4ff] flex items-center justify-center text-[#5b2bbf]">
-                <FaLeaf size={20} />
+              <div className="w-10 h-10 rounded-full bg-[#eee4ff] flex items-center justify-center shrink-0">
+                <FaLeaf
+                  className="text-[#5b2bbf]"
+                  size={15}
+                />
               </div>
 
-              <h3 className="mt-5 font-extrabold text-lg">
-                Natural Ingredients
-              </h3>
+              <div>
 
-              <p className="mt-2 text-sm leading-6 text-gray-500">
-                Carefully selected ingredients for a naturally refreshing taste.
-              </p>
+                <h3 className="text-xs font-bold text-[#241044]">
+                  Natural Ingredients
+                </h3>
+
+                <p className="text-[10px] text-gray-500 mt-1">
+                  Carefully selected
+                </p>
+
+              </div>
 
             </div>
 
-            {/* Card 2 */}
+            {/* Fast Delivery */}
 
-            <div className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl transition duration-300">
+            <div className="flex items-center gap-3 py-6 lg:py-7">
 
-              <div className="w-12 h-12 rounded-2xl bg-[#eee4ff] flex items-center justify-center text-[#5b2bbf]">
-                <FaTruck size={19} />
+              <div className="w-10 h-10 rounded-full bg-[#eee4ff] flex items-center justify-center shrink-0">
+                <FaTruck
+                  className="text-[#5b2bbf]"
+                  size={15}
+                />
               </div>
 
-              <h3 className="mt-5 font-extrabold text-lg">
-                Fast Delivery
-              </h3>
+              <div>
 
-              <p className="mt-2 text-sm leading-6 text-gray-500">
-                Fresh products delivered quickly and safely to your doorstep.
-              </p>
+                <h3 className="text-xs font-bold text-[#241044]">
+                  Fast Delivery
+                </h3>
+
+                <p className="text-[10px] text-gray-500 mt-1">
+                  Fresh to your door
+                </p>
+
+              </div>
 
             </div>
 
-            {/* Card 3 */}
+            {/* Quality */}
 
-            <div className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl transition duration-300">
+            <div className="flex items-center gap-3 py-6 lg:py-7">
 
-              <div className="w-12 h-12 rounded-2xl bg-[#eee4ff] flex items-center justify-center text-[#5b2bbf]">
-                <FaShieldAlt size={19} />
+              <div className="w-10 h-10 rounded-full bg-[#eee4ff] flex items-center justify-center shrink-0">
+                <FaShieldAlt
+                  className="text-[#5b2bbf]"
+                  size={15}
+                />
               </div>
 
-              <h3 className="mt-5 font-extrabold text-lg">
-                Quality Guaranteed
-              </h3>
+              <div>
 
-              <p className="mt-2 text-sm leading-6 text-gray-500">
-                Quality checked products made with care and attention.
-              </p>
+                <h3 className="text-xs font-bold text-[#241044]">
+                  Quality Guaranteed
+                </h3>
+
+                <p className="text-[10px] text-gray-500 mt-1">
+                  Quality you can trust
+                </p>
+
+              </div>
 
             </div>
 
-            {/* Card 4 */}
+            {/* Loved */}
 
-            <div className="bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl transition duration-300">
+            <div className="flex items-center gap-3 py-6 lg:py-7">
 
-              <div className="w-12 h-12 rounded-2xl bg-[#eee4ff] flex items-center justify-center text-[#5b2bbf]">
-                <FaHeart size={19} />
+              <div className="w-10 h-10 rounded-full bg-[#eee4ff] flex items-center justify-center shrink-0">
+                <FaHeart
+                  className="text-[#5b2bbf]"
+                  size={15}
+                />
               </div>
 
-              <h3 className="mt-5 font-extrabold text-lg">
-                Loved By Customers
-              </h3>
+              <div>
 
-              <p className="mt-2 text-sm leading-6 text-gray-500">
-                Created to bring happiness and freshness to every sip.
-              </p>
+                <h3 className="text-xs font-bold text-[#241044]">
+                  Loved By Customers
+                </h3>
+
+                <p className="text-[10px] text-gray-500 mt-1">
+                  Made with love
+                </p>
+
+              </div>
 
             </div>
 
@@ -345,7 +395,7 @@ const About = () => {
 
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-            {/* Image */}
+            {/* IMAGE */}
 
             <div className="relative">
 
@@ -363,7 +413,7 @@ const About = () => {
 
             </div>
 
-            {/* Content */}
+            {/* CONTENT */}
 
             <div>
 
@@ -397,7 +447,7 @@ const About = () => {
                 to give you a simple moment of refreshment and happiness.
               </p>
 
-              {/* Checklist */}
+              {/* CHECKLIST */}
 
               <div className="mt-7 space-y-4">
 
@@ -440,6 +490,7 @@ const About = () => {
                 Explore Products
 
                 <FaArrowRight size={11} />
+
               </Link>
 
             </div>
@@ -565,6 +616,8 @@ const About = () => {
 
           <div className="relative overflow-hidden rounded-[2rem] sm:rounded-[3rem] bg-[#241044] px-6 py-14 sm:px-12 lg:px-20 text-center">
 
+            {/* DECORATION */}
+
             <div className="absolute -top-20 -left-20 w-60 h-60 bg-[#5b2bbf] rounded-full blur-3xl opacity-40" />
 
             <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-[#5b2bbf] rounded-full blur-3xl opacity-40" />
@@ -597,6 +650,7 @@ const About = () => {
                 Shop Our Drinks
 
                 <FaArrowRight size={11} />
+
               </Link>
 
             </div>
@@ -607,8 +661,9 @@ const About = () => {
 
       </section>
 
-    </div>
+    </main>
   );
 };
 
 export default About;
+
