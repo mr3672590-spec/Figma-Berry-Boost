@@ -1,5 +1,4 @@
-
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
@@ -13,16 +12,10 @@ import {
   FaSeedling,
 } from "react-icons/fa";
 
-// ================= IMAGES =================
-
 import strawberryHero from "../assets/strawberryHero.png";
 import kiwi2 from "../assets/kiwi2.png";
 import blueberryHero from "../assets/blueberryHero.png";
 import blueberryCan from "../assets/blueberry-can.png";
-
-// =====================================================
-// HERO SLIDES
-// =====================================================
 
 const heroSlides = [
   {
@@ -60,105 +53,127 @@ const heroSlides = [
   },
 ];
 
-// =====================================================
-// ABOUT
-// =====================================================
+const features = [
+  {
+    icon: FaLeaf,
+    title: "Natural Ingredients",
+    description: "Carefully selected",
+  },
+  {
+    icon: FaTruck,
+    title: "Fast Delivery",
+    description: "Fresh to your door",
+  },
+  {
+    icon: FaShieldAlt,
+    title: "Quality Guaranteed",
+    description: "Quality you can trust",
+  },
+  {
+    icon: FaHeart,
+    title: "Loved By Customers",
+    description: "Made with love",
+  },
+];
+
+const benefits = [
+  {
+    icon: FaLeaf,
+    title: "Fresh",
+    description:
+      "Fresh flavours for a refreshing everyday experience.",
+  },
+  {
+    icon: FaSeedling,
+    title: "Natural",
+    description:
+      "Inspired by nature and made with carefully selected fruits.",
+  },
+  {
+    icon: FaShieldAlt,
+    title: "Trusted",
+    description:
+      "Quality and customer satisfaction are always our priority.",
+  },
+  {
+    icon: FaHeart,
+    title: "Delicious",
+    description:
+      "Great taste designed to make every sip more enjoyable.",
+  },
+];
 
 const About = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // =====================================================
-  // AUTO SLIDER
-  // =====================================================
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) =>
-        prev === heroSlides.length - 1 ? 0 : prev + 1
-      );
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
-
   const currentHero = heroSlides[currentSlide];
 
+  const nextSlide = () => {
+    setCurrentSlide((prev) =>
+      prev === heroSlides.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const previousSlide = () => {
+    setCurrentSlide((prev) =>
+      prev === 0 ? heroSlides.length - 1 : prev - 1
+    );
+  };
+
   return (
-    <main className="bg-white text-[#241044] overflow-hidden">
+    <main className="overflow-hidden bg-white text-[#241044]">
 
-      {/* =====================================================
-          HERO SECTION
-      ===================================================== */}
+      {/* ================= HERO ================= */}
 
-      <section className="relative w-full h-[650px] sm:h-[700px] overflow-hidden flex items-center">
+      <section className="relative flex min-h-[650px] w-full items-center justify-center overflow-hidden sm:min-h-[700px]">
 
-        {/* =====================================================
-            BACKGROUND SLIDES
-        ===================================================== */}
+        {/* Background / Product Images */}
 
         {heroSlides.map((slide, index) => (
           <div
             key={slide.id}
-            className={`
-              absolute inset-0 w-full h-full
-              transition-transform duration-1000 ease-in-out
-              ${
-                index === currentSlide
-                  ? "translate-x-0 z-10"
-                  : index < currentSlide
-                  ? "translate-x-full z-0"
-                  : "-translate-x-full z-0"
-              }
-            `}
+            className={`absolute inset-0 h-full w-full transition-opacity duration-500 ${
+              index === currentSlide
+                ? "z-10 opacity-100"
+                : "z-0 opacity-0"
+            }`}
           >
-
             <img
               src={slide.image}
               alt={`Hero Banner ${slide.id}`}
-              className="absolute inset-0 w-full h-full object-cover object-center"
+              className="absolute inset-0 h-full w-full object-cover object-center"
             />
-
-            {/* Dark Overlay */}
 
             <div className="absolute inset-0 bg-black/30" />
 
-            {/* Purple Overlay */}
-
             <div className="absolute inset-0 bg-[#3d176d]/15" />
-
           </div>
         ))}
 
-        {/* =====================================================
-            HERO CONTENT
-        ===================================================== */}
+        {/* Hero Content */}
 
-        <div className="relative z-20 w-full max-w-7xl mx-auto px-5 sm:px-7 md:px-8 lg:px-10 xl:px-12">
+        <div className="relative z-20 mx-auto w-full max-w-7xl px-5 sm:px-7 md:px-8 lg:px-10 xl:px-12">
 
-          <div className="flex flex-col items-start justify-center w-full max-w-[620px] py-16">
+          <div className="flex w-full max-w-[620px] flex-col items-start justify-center py-16">
 
-            {/* =================================================
-                BADGE
-            ================================================= */}
+            {/* Badge */}
 
-            <div className="inline-flex items-center gap-2 bg-white/95 backdrop-blur-sm px-4 sm:px-5 py-2 sm:py-2.5 rounded-full shadow-lg">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 shadow-lg backdrop-blur-sm sm:px-5 sm:py-2.5">
 
               <FaLeaf
                 className="text-[#5b2bbf]"
                 size={12}
               />
 
-              <span className="text-[#5b2bbf] text-[8px] sm:text-[10px] font-extrabold tracking-[1.5px] sm:tracking-[2px] whitespace-nowrap">
+              <span className="text-[8px] font-extrabold tracking-[1.5px] text-[#5b2bbf] sm:text-[10px] sm:tracking-[2px]">
                 {currentHero.badge}
               </span>
 
             </div>
 
-            {/* =================================================
-                TITLE
-            ================================================= */}
+            {/* Heading */}
 
-            <h1 className="mt-5 sm:mt-6 text-[40px] leading-[0.98] sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[70px] font-extrabold text-white">
+            <h1 className="mt-5 text-[40px] font-extrabold leading-[0.98] text-white sm:mt-6 sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[70px]">
 
               {currentHero.title1}
 
@@ -180,56 +195,50 @@ const About = () => {
 
             </h1>
 
-            {/* =================================================
-                DESCRIPTION
-            ================================================= */}
+            {/* Description */}
 
-            <p className="mt-5 sm:mt-6 max-w-[540px] text-[13px] sm:text-sm md:text-base leading-6 sm:leading-7 text-white/90">
+            <p className="mt-5 max-w-[540px] text-[13px] leading-6 text-white/90 sm:mt-6 sm:text-sm sm:leading-7 md:text-base">
               {currentHero.description}
             </p>
 
-            {/* =================================================
-                BUTTONS
-            ================================================= */}
+            {/* Buttons */}
 
-            <div className="flex flex-row flex-wrap items-center gap-2 sm:gap-3 mt-7">
+            <div className="mt-7 flex flex-wrap items-center gap-2 sm:gap-3">
 
               <Link
                 to="/shop"
-                className="inline-flex items-center justify-center gap-2 bg-[#5b2bbf] text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-full text-[11px] sm:text-xs font-bold shadow-xl hover:bg-[#45209a] hover:scale-105 transition duration-300"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#5b2bbf] px-5 py-3 text-[11px] font-bold text-white shadow-xl transition duration-300 hover:scale-105 hover:bg-[#45209a] sm:px-7 sm:py-3.5 sm:text-xs"
               >
                 Shop Now
 
                 <FaArrowRight size={10} />
-
               </Link>
 
               <a
                 href="#about-story"
-                className="inline-flex items-center justify-center bg-white text-[#5b2bbf] px-5 sm:px-7 py-3 sm:py-3.5 rounded-full text-[11px] sm:text-xs font-bold shadow-xl hover:bg-[#f8f4ff] hover:scale-105 transition duration-300"
+                className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-[11px] font-bold text-[#5b2bbf] shadow-xl transition duration-300 hover:scale-105 hover:bg-[#f8f4ff] sm:px-7 sm:py-3.5 sm:text-xs"
               >
                 Our Story
               </a>
 
             </div>
 
-            {/* =================================================
-                RATING
-            ================================================= */}
+            {/* Rating */}
 
-            <div className="flex items-center gap-3 mt-7">
+            <div className="mt-7 flex items-center gap-3">
 
               <div className="flex items-center gap-1 text-[#f5b800]">
 
-                <FaStar size={11} />
-                <FaStar size={11} />
-                <FaStar size={11} />
-                <FaStar size={11} />
-                <FaStar size={11} />
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <FaStar
+                    key={star}
+                    size={11}
+                  />
+                ))}
 
               </div>
 
-              <span className="text-[10px] sm:text-xs font-semibold text-white">
+              <span className="text-[10px] font-semibold text-white sm:text-xs">
                 4.9/5 from happy customers
               </span>
 
@@ -239,142 +248,97 @@ const About = () => {
 
         </div>
 
-        {/* =====================================================
-            SLIDER DOTS
-        ===================================================== */}
+        {/* ================= CENTER SLIDER CONTROLS ================= */}
 
-        <div className="absolute z-30 bottom-8 sm:bottom-10 left-1/2 -translate-x-1/2 flex items-center gap-3">
+        <div className="absolute left-0 top-1/2 z-40 flex w-full -translate-y-1/2 items-center justify-between px-4 sm:px-8 lg:px-12">
 
-          {heroSlides.map((slide, index) => (
-            <button
-              key={slide.id}
-              type="button"
-              onClick={() => setCurrentSlide(index)}
-              aria-label={`Go to slide ${index + 1}`}
-              className={`
-                rounded-full transition-all duration-500
-                ${
+          {/* Previous */}
+
+          <button
+            type="button"
+            onClick={previousSlide}
+            aria-label="Previous slide"
+            className="flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-xl font-bold text-[#5b2bbf] shadow-xl transition duration-300 hover:scale-110 hover:bg-white sm:h-13 sm:w-13"
+          >
+            ←
+          </button>
+
+          {/* Center Dots */}
+
+          <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-3">
+
+            {heroSlides.map((slide, index) => (
+              <button
+                key={slide.id}
+                type="button"
+                onClick={() => setCurrentSlide(index)}
+                aria-label={`Go to slide ${index + 1}`}
+                className={`rounded-full transition-all duration-300 ${
                   index === currentSlide
-                    ? "w-8 h-2 bg-white"
-                    : "w-2 h-2 bg-white/50 hover:bg-white/80"
-                }
-              `}
-            />
-          ))}
+                    ? "h-2.5 w-9 bg-white shadow-md"
+                    : "h-2.5 w-2.5 bg-white/60 hover:bg-white"
+                }`}
+              />
+            ))}
+
+          </div>
+
+          {/* Next */}
+
+          <button
+            type="button"
+            onClick={nextSlide}
+            aria-label="Next slide"
+            className="flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-xl font-bold text-[#5b2bbf] shadow-xl transition duration-300 hover:scale-110 hover:bg-white sm:h-13 sm:w-13"
+          >
+            →
+          </button>
 
         </div>
 
       </section>
 
-      {/* =====================================================
-          FEATURES
-      ===================================================== */}
+      {/* ================= FEATURES ================= */}
 
-      <section className="bg-white border-b border-gray-100">
+      <section className="border-b border-gray-100 bg-white">
 
-        <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
 
           <div className="grid grid-cols-2 lg:grid-cols-4">
 
-            {/* Natural Ingredients */}
+            {features.map((feature) => {
+              const Icon = feature.icon;
 
-            <div className="flex items-center gap-3 py-6 lg:py-7">
+              return (
+                <div
+                  key={feature.title}
+                  className="flex items-center gap-3 py-6 lg:py-7"
+                >
 
-              <div className="w-10 h-10 rounded-full bg-[#eee4ff] flex items-center justify-center shrink-0">
-                <FaLeaf
-                  className="text-[#5b2bbf]"
-                  size={15}
-                />
-              </div>
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#eee4ff]">
 
-              <div>
+                    <Icon
+                      className="text-[#5b2bbf]"
+                      size={15}
+                    />
 
-                <h3 className="text-xs font-bold text-[#241044]">
-                  Natural Ingredients
-                </h3>
+                  </div>
 
-                <p className="text-[10px] text-gray-500 mt-1">
-                  Carefully selected
-                </p>
+                  <div>
 
-              </div>
+                    <h3 className="text-xs font-bold">
+                      {feature.title}
+                    </h3>
 
-            </div>
+                    <p className="mt-1 text-[10px] text-gray-500">
+                      {feature.description}
+                    </p>
 
-            {/* Fast Delivery */}
+                  </div>
 
-            <div className="flex items-center gap-3 py-6 lg:py-7">
-
-              <div className="w-10 h-10 rounded-full bg-[#eee4ff] flex items-center justify-center shrink-0">
-                <FaTruck
-                  className="text-[#5b2bbf]"
-                  size={15}
-                />
-              </div>
-
-              <div>
-
-                <h3 className="text-xs font-bold text-[#241044]">
-                  Fast Delivery
-                </h3>
-
-                <p className="text-[10px] text-gray-500 mt-1">
-                  Fresh to your door
-                </p>
-
-              </div>
-
-            </div>
-
-            {/* Quality */}
-
-            <div className="flex items-center gap-3 py-6 lg:py-7">
-
-              <div className="w-10 h-10 rounded-full bg-[#eee4ff] flex items-center justify-center shrink-0">
-                <FaShieldAlt
-                  className="text-[#5b2bbf]"
-                  size={15}
-                />
-              </div>
-
-              <div>
-
-                <h3 className="text-xs font-bold text-[#241044]">
-                  Quality Guaranteed
-                </h3>
-
-                <p className="text-[10px] text-gray-500 mt-1">
-                  Quality you can trust
-                </p>
-
-              </div>
-
-            </div>
-
-            {/* Loved */}
-
-            <div className="flex items-center gap-3 py-6 lg:py-7">
-
-              <div className="w-10 h-10 rounded-full bg-[#eee4ff] flex items-center justify-center shrink-0">
-                <FaHeart
-                  className="text-[#5b2bbf]"
-                  size={15}
-                />
-              </div>
-
-              <div>
-
-                <h3 className="text-xs font-bold text-[#241044]">
-                  Loved By Customers
-                </h3>
-
-                <p className="text-[10px] text-gray-500 mt-1">
-                  Made with love
-                </p>
-
-              </div>
-
-            </div>
+                </div>
+              );
+            })}
 
           </div>
 
@@ -382,42 +346,40 @@ const About = () => {
 
       </section>
 
-      {/* =====================================================
-          ABOUT STORY
-      ===================================================== */}
+      {/* ================= ABOUT STORY ================= */}
 
       <section
         id="about-story"
-        className="py-20 sm:py-24 bg-white"
+        className="bg-white py-20 sm:py-24"
       >
 
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
 
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
 
-            {/* IMAGE */}
+            {/* Image */}
 
             <div className="relative">
 
-              <div className="absolute -top-6 -left-6 w-24 h-24 bg-[#e7d9ff] rounded-full blur-2xl" />
+              <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-[#e7d9ff] blur-2xl" />
 
-              <div className="relative bg-[#eee4ff] rounded-[2.5rem] min-h-[420px] sm:min-h-[520px] flex items-center justify-center overflow-hidden">
+              <div className="relative flex min-h-[420px] items-center justify-center overflow-hidden rounded-[2.5rem] bg-[#eee4ff] sm:min-h-[520px]">
 
                 <img
                   src={blueberryCan}
                   alt="Fresh fruit drink"
-                  className="w-56 sm:w-72 lg:w-80 max-h-[480px] object-contain drop-shadow-2xl hover:scale-105 transition duration-500"
+                  className="w-56 max-h-[480px] object-contain drop-shadow-2xl transition duration-500 hover:scale-105 sm:w-72 lg:w-80"
                 />
 
               </div>
 
             </div>
 
-            {/* CONTENT */}
+            {/* Content */}
 
             <div>
 
-              <span className="inline-flex items-center gap-2 text-[#5b2bbf] text-xs font-extrabold tracking-[2px] uppercase">
+              <span className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[2px] text-[#5b2bbf]">
 
                 <FaSeedling size={12} />
 
@@ -425,72 +387,58 @@ const About = () => {
 
               </span>
 
-              <h2 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-[#241044]">
+              <h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
 
-                Freshness You Can
+                Freshness You Can{" "}
 
                 <span className="text-[#5b2bbf]">
-                  {" "}Taste.
+                  Taste.
                 </span>
 
               </h2>
 
-              <p className="mt-6 text-gray-600 leading-7 text-sm sm:text-base">
+              <p className="mt-6 text-sm leading-7 text-gray-600 sm:text-base">
                 We believe that great drinks start with great ingredients.
                 Our mission is to create refreshing fruit drinks that combine
                 delicious flavour with a fresh and enjoyable experience.
               </p>
 
-              <p className="mt-4 text-gray-600 leading-7 text-sm sm:text-base">
+              <p className="mt-4 text-sm leading-7 text-gray-600 sm:text-base">
                 From carefully selected fruits to every bottle we prepare,
                 we focus on quality, freshness and taste. Every sip is made
                 to give you a simple moment of refreshment and happiness.
               </p>
 
-              {/* CHECKLIST */}
-
               <div className="mt-7 space-y-4">
 
-                <div className="flex items-center gap-3">
+                {[
+                  "Carefully selected ingredients",
+                  "Delicious natural fruit flavours",
+                  "Quality-focused production",
+                ].map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-center gap-3"
+                  >
 
-                  <FaCheckCircle className="text-[#5b2bbf]" />
+                    <FaCheckCircle className="text-[#5b2bbf]" />
 
-                  <span className="text-sm font-semibold text-[#241044]">
-                    Carefully selected ingredients
-                  </span>
+                    <span className="text-sm font-semibold">
+                      {item}
+                    </span>
 
-                </div>
-
-                <div className="flex items-center gap-3">
-
-                  <FaCheckCircle className="text-[#5b2bbf]" />
-
-                  <span className="text-sm font-semibold text-[#241044]">
-                    Delicious natural fruit flavours
-                  </span>
-
-                </div>
-
-                <div className="flex items-center gap-3">
-
-                  <FaCheckCircle className="text-[#5b2bbf]" />
-
-                  <span className="text-sm font-semibold text-[#241044]">
-                    Quality-focused production
-                  </span>
-
-                </div>
+                  </div>
+                ))}
 
               </div>
 
               <Link
                 to="/shop"
-                className="inline-flex items-center gap-2 mt-8 bg-[#5b2bbf] text-white px-7 py-3.5 rounded-full text-sm font-bold hover:bg-[#45209a] hover:scale-105 transition"
+                className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#5b2bbf] px-7 py-3.5 text-sm font-bold text-white transition hover:scale-105 hover:bg-[#45209a]"
               >
                 Explore Products
 
                 <FaArrowRight size={11} />
-
               </Link>
 
             </div>
@@ -501,104 +449,57 @@ const About = () => {
 
       </section>
 
-      {/* =====================================================
-          WHY CHOOSE US
-      ===================================================== */}
+      {/* ================= WHY CHOOSE US ================= */}
 
-      <section className="py-20 sm:py-24 bg-[#faf8ff]">
+      <section className="bg-[#faf8ff] py-20 sm:py-24">
 
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
 
-          <div className="text-center max-w-2xl mx-auto">
+          <div className="mx-auto max-w-2xl text-center">
 
-            <span className="text-[#5b2bbf] text-xs font-extrabold tracking-[2px] uppercase">
+            <span className="text-xs font-extrabold uppercase tracking-[2px] text-[#5b2bbf]">
               Why Choose Us
             </span>
 
-            <h2 className="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#241044]">
+            <h2 className="mt-3 text-3xl font-extrabold sm:text-4xl lg:text-5xl">
               Made For Fresh Moments
             </h2>
 
-            <p className="mt-4 text-sm sm:text-base text-gray-500 leading-7">
+            <p className="mt-4 text-sm leading-7 text-gray-500 sm:text-base">
               Everything we do is focused on delivering delicious taste,
               freshness and quality to our customers.
             </p>
 
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-12">
+          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
 
-            {/* Fresh */}
+            {benefits.map((benefit) => {
+              const Icon = benefit.icon;
 
-            <div className="bg-white rounded-3xl p-7 text-center shadow-sm hover:shadow-xl transition duration-300">
+              return (
+                <div
+                  key={benefit.title}
+                  className="rounded-3xl bg-white p-7 text-center shadow-sm transition duration-300 hover:shadow-xl"
+                >
 
-              <div className="mx-auto w-14 h-14 rounded-2xl bg-[#eee4ff] flex items-center justify-center text-[#5b2bbf]">
-                <FaLeaf size={23} />
-              </div>
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#eee4ff] text-[#5b2bbf]">
 
-              <h3 className="mt-5 font-extrabold text-lg">
-                Fresh
-              </h3>
+                    <Icon size={23} />
 
-              <p className="mt-2 text-sm text-gray-500 leading-6">
-                Fresh flavours for a refreshing everyday experience.
-              </p>
+                  </div>
 
-            </div>
+                  <h3 className="mt-5 text-lg font-extrabold">
+                    {benefit.title}
+                  </h3>
 
-            {/* Natural */}
+                  <p className="mt-2 text-sm leading-6 text-gray-500">
+                    {benefit.description}
+                  </p>
 
-            <div className="bg-white rounded-3xl p-7 text-center shadow-sm hover:shadow-xl transition duration-300">
-
-              <div className="mx-auto w-14 h-14 rounded-2xl bg-[#eee4ff] flex items-center justify-center text-[#5b2bbf]">
-                <FaSeedling size={23} />
-              </div>
-
-              <h3 className="mt-5 font-extrabold text-lg">
-                Natural
-              </h3>
-
-              <p className="mt-2 text-sm text-gray-500 leading-6">
-                Inspired by nature and made with carefully selected fruits.
-              </p>
-
-            </div>
-
-            {/* Trusted */}
-
-            <div className="bg-white rounded-3xl p-7 text-center shadow-sm hover:shadow-xl transition duration-300">
-
-              <div className="mx-auto w-14 h-14 rounded-2xl bg-[#eee4ff] flex items-center justify-center text-[#5b2bbf]">
-                <FaShieldAlt size={23} />
-              </div>
-
-              <h3 className="mt-5 font-extrabold text-lg">
-                Trusted
-              </h3>
-
-              <p className="mt-2 text-sm text-gray-500 leading-6">
-                Quality and customer satisfaction are always our priority.
-              </p>
-
-            </div>
-
-            {/* Delicious */}
-
-            <div className="bg-white rounded-3xl p-7 text-center shadow-sm hover:shadow-xl transition duration-300">
-
-              <div className="mx-auto w-14 h-14 rounded-2xl bg-[#eee4ff] flex items-center justify-center text-[#5b2bbf]">
-                <FaHeart size={23} />
-              </div>
-
-              <h3 className="mt-5 font-extrabold text-lg">
-                Delicious
-              </h3>
-
-              <p className="mt-2 text-sm text-gray-500 leading-6">
-                Great taste designed to make every sip more enjoyable.
-              </p>
-
-            </div>
+                </div>
+              );
+            })}
 
           </div>
 
@@ -606,51 +507,46 @@ const About = () => {
 
       </section>
 
-      {/* =====================================================
-          CTA
-      ===================================================== */}
+      {/* ================= CTA ================= */}
 
-      <section className="py-20 sm:py-24 px-5">
+      <section className="px-5 py-20 sm:py-24">
 
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto max-w-7xl">
 
-          <div className="relative overflow-hidden rounded-[2rem] sm:rounded-[3rem] bg-[#241044] px-6 py-14 sm:px-12 lg:px-20 text-center">
+          <div className="relative overflow-hidden rounded-[2rem] bg-[#241044] px-6 py-14 text-center sm:rounded-[3rem] sm:px-12 lg:px-20">
 
-            {/* DECORATION */}
+            <div className="absolute -left-20 -top-20 h-60 w-60 rounded-full bg-[#5b2bbf] opacity-40 blur-3xl" />
 
-            <div className="absolute -top-20 -left-20 w-60 h-60 bg-[#5b2bbf] rounded-full blur-3xl opacity-40" />
-
-            <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-[#5b2bbf] rounded-full blur-3xl opacity-40" />
+            <div className="absolute -bottom-20 -right-20 h-60 w-60 rounded-full bg-[#5b2bbf] opacity-40 blur-3xl" />
 
             <div className="relative z-10">
 
-              <span className="text-[#d9c4ff] text-xs font-extrabold tracking-[2px] uppercase">
+              <span className="text-xs font-extrabold uppercase tracking-[2px] text-[#d9c4ff]">
                 Taste The Difference
               </span>
 
-              <h2 className="mt-4 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white">
+              <h2 className="mt-4 text-3xl font-extrabold text-white sm:text-4xl lg:text-5xl">
 
-                Ready For Something
+                Ready For Something{" "}
 
                 <span className="text-[#d9c4ff]">
-                  {" "}Fresh?
+                  Fresh?
                 </span>
 
               </h2>
 
-              <p className="mt-4 max-w-2xl mx-auto text-sm sm:text-base text-white/70 leading-7">
+              <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/70 sm:text-base">
                 Discover our delicious fruit drinks and enjoy freshness,
                 flavour and goodness in every sip.
               </p>
 
               <Link
                 to="/shop"
-                className="inline-flex items-center gap-2 mt-8 bg-white text-[#5b2bbf] px-8 py-4 rounded-full text-sm font-extrabold hover:bg-[#f5efff] hover:scale-105 transition shadow-xl"
+                className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-extrabold text-[#5b2bbf] shadow-xl transition hover:scale-105 hover:bg-[#f5efff]"
               >
                 Shop Our Drinks
 
                 <FaArrowRight size={11} />
-
               </Link>
 
             </div>
@@ -666,4 +562,3 @@ const About = () => {
 };
 
 export default About;
-

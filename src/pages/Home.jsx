@@ -947,11 +947,8 @@ const Home = () => {
         </div>
 
       </section>
-
-      {/* =====================================================
-          CTA
-      ===================================================== */}
-
+ 
+ 
       <section className="py-16 sm:py-20">
 
         <div className="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8">
