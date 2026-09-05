@@ -4,11 +4,14 @@ import { FaTruck } from "react-icons/fa";
 
 const TopBar = () => {
   const messages = [
-    "WELCOME TO OUR STORE",
-    "FREE SHIPPING ALL OVER BANGLADESH",
-    "50% DISCOUNT OFF ON ALL PRODUCTS",
-    "💜 SHOP YOUR FAVORITE PRODUCTS TODAY",
-    "💰 BEST DEALS — LIMITED TIME OFFER",
+   
+  "👋 WELCOME TO OUR SHOP",
+  "✨ NEW COLLECTION IS HERE — SHOP NOW",
+  "🚚 FREE SHIPPING ACROSS BANGLADESH",
+  "🔥 GET 50% OFF ON ALL PRODUCTS",
+  "⭐ PREMIUM QUALITY AT THE BEST PRICE",
+  "⏰ LIMITED-TIME DEALS — DON'T MISS OUT"
+
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
