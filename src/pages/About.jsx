@@ -134,8 +134,11 @@ const About = () => {
 
   return (
     <main className="overflow-hidden bg-white text-[#241044]">
+
       {/* Hero */}
       <section className="relative flex h-[650px] w-full items-center overflow-hidden sm:h-[700px]">
+
+        {/* Hero Images */}
         <div className="absolute inset-0 overflow-hidden">
           {heroSlides.map((slide, index) => {
             const isActive = index === currentSlide;
@@ -174,6 +177,7 @@ const About = () => {
                 />
 
                 <div className="absolute inset-0 bg-black/30" />
+
                 <div className="absolute inset-0 bg-[#3d176d]/15" />
               </div>
             );
@@ -183,6 +187,8 @@ const About = () => {
         {/* Hero Content */}
         <div className="relative z-20 mx-auto w-full max-w-7xl px-5 sm:px-7 md:px-8 lg:px-10 xl:px-12">
           <div className="flex w-full max-w-[620px] flex-col items-start justify-center py-16">
+
+            {/* Badge */}
             <div className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 shadow-lg backdrop-blur-sm sm:px-5 sm:py-2.5">
               <FaLeaf
                 className="text-[#5b2bbf]"
@@ -194,8 +200,10 @@ const About = () => {
               </span>
             </div>
 
+            {/* Heading */}
             <h1 className="mt-5 text-[40px] font-extrabold leading-[0.98] text-white sm:mt-6 sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[70px]">
               {currentHero.title1}
+
               <br />
 
               <span className="text-[#d9c4ff]">
@@ -205,6 +213,7 @@ const About = () => {
               <br />
 
               {currentHero.title2}
+
               <br />
 
               <span className="text-[#d9c4ff]">
@@ -212,10 +221,12 @@ const About = () => {
               </span>
             </h1>
 
+            {/* Description */}
             <p className="mt-5 max-w-[540px] text-[13px] leading-6 text-white/90 sm:mt-6 sm:text-sm sm:leading-7 md:text-base">
               {currentHero.description}
             </p>
 
+            {/* Buttons */}
             <div className="mt-7 flex flex-wrap items-center gap-2 sm:gap-3">
               <Link
                 to="/shop"
@@ -233,6 +244,7 @@ const About = () => {
               </a>
             </div>
 
+            {/* Rating */}
             <div className="mt-7 flex items-center gap-3">
               <div className="flex items-center gap-1 text-[#f5b800]">
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -248,17 +260,20 @@ const About = () => {
         </div>
 
         {/* Slider Controls */}
-        <div className="absolute inset-x-0 bottom-7 z-30 flex items-center justify-center gap-4 px-4 sm:bottom-9 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:justify-between md:px-7 lg:px-12">
+        <div className="absolute bottom-6 left-0 right-0 z-30 flex items-center justify-center gap-5 px-5 sm:bottom-8 md:top-1/2 md:bottom-auto md:-translate-y-1/2 md:justify-between md:px-7 lg:px-12">
+
+          {/* Previous Button */}
           <button
             type="button"
             onClick={previousSlide}
             aria-label="Previous slide"
-            className="flex h-10 w-10 cursor-pointer shrink-0 items-center justify-center rounded-full bg-white/90 text-xl text-[#5b2bbf] shadow-lg transition duration-300 hover:scale-110 hover:bg-white md:h-11 md:w-11"
+            className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white/90 text-xl text-[#5b2bbf] shadow-lg transition duration-300 hover:scale-110 hover:bg-white md:h-11 md:w-11"
           >
             ←
           </button>
 
-          <div className="absolute left-1/2 flex -translate-x-1/2 items-center justify-center gap-3">
+          {/* Mobile Dots */}
+          <div className="flex items-center gap-2 md:hidden">
             {heroSlides.map((slide, index) => (
               <button
                 key={slide.id}
@@ -274,14 +289,32 @@ const About = () => {
             ))}
           </div>
 
+          {/* Next Button */}
           <button
             type="button"
             onClick={nextSlide}
             aria-label="Next slide"
-            className="flex h-10 w-10 cursor-pointer shrink-0 items-center justify-center rounded-full bg-white/90 text-xl text-[#5b2bbf] shadow-lg transition duration-300 hover:scale-110 hover:bg-white md:h-11 md:w-11"
+            className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white/90 text-xl text-[#5b2bbf] shadow-lg transition duration-300 hover:scale-110 hover:bg-white md:h-11 md:w-11"
           >
             →
           </button>
+
+          {/* Desktop Dots */}
+          <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-2 md:flex">
+            {heroSlides.map((slide, index) => (
+              <button
+                key={slide.id}
+                type="button"
+                onClick={() => goToSlide(index)}
+                aria-label={`Go to slide ${index + 1}`}
+                className={`rounded-full transition-all duration-300 ${
+                  index === currentSlide
+                    ? "h-2 w-8 bg-white"
+                    : "h-2 w-2 bg-white/50 hover:bg-white"
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </section>
 
@@ -327,6 +360,8 @@ const About = () => {
       >
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+
+            {/* Image */}
             <div className="relative">
               <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-[#e7d9ff] blur-2xl" />
 
@@ -339,6 +374,7 @@ const About = () => {
               </div>
             </div>
 
+            {/* Content */}
             <div>
               <span className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[2px] text-[#5b2bbf]">
                 <FaSeedling size={12} />
@@ -364,6 +400,7 @@ const About = () => {
                 to give you a simple moment of refreshment and happiness.
               </p>
 
+              {/* Points */}
               <div className="mt-7 space-y-4">
                 {[
                   "Carefully selected ingredients",
@@ -398,6 +435,7 @@ const About = () => {
       {/* Why Choose Us */}
       <section className="bg-[#faf8ff] py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
+
           <div className="mx-auto max-w-2xl text-center">
             <span className="text-xs font-extrabold uppercase tracking-[2px] text-[#5b2bbf]">
               Why Choose Us
@@ -413,6 +451,7 @@ const About = () => {
             </p>
           </div>
 
+          {/* Benefits */}
           <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {benefits.map((benefit) => {
               const Icon = benefit.icon;
@@ -444,6 +483,7 @@ const About = () => {
       <section className="px-5 py-20 sm:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="relative overflow-hidden rounded-[2rem] bg-[#241044] px-6 py-14 text-center sm:rounded-[3rem] sm:px-12 lg:px-20">
+
             <div className="absolute -left-20 -top-20 h-60 w-60 rounded-full bg-[#5b2bbf] opacity-40 blur-3xl" />
 
             <div className="absolute -bottom-20 -right-20 h-60 w-60 rounded-full bg-[#5b2bbf] opacity-40 blur-3xl" />
@@ -476,6 +516,7 @@ const About = () => {
           </div>
         </div>
       </section>
+
     </main>
   );
 };
