@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -135,15 +134,9 @@ const About = () => {
 
   return (
     <main className="overflow-hidden bg-white text-[#241044]">
-
-      {/* ================= HERO ================= */}
-
-      <section className="relative flex min-h-[650px] w-full items-center justify-center overflow-hidden sm:min-h-[700px]">
-
-        {/* Background Slider */}
-
+      {/* Hero */}
+      <section className="relative flex h-[650px] w-full items-center overflow-hidden sm:h-[700px]">
         <div className="absolute inset-0 overflow-hidden">
-
           {heroSlides.map((slide, index) => {
             const isActive = index === currentSlide;
 
@@ -177,28 +170,20 @@ const About = () => {
                 <img
                   src={slide.image}
                   alt={`Hero Banner ${slide.id}`}
-                  className="h-full w-full object-cover object-center"
+                  className="absolute inset-0 h-full w-full object-cover object-center"
                 />
 
                 <div className="absolute inset-0 bg-black/30" />
-
                 <div className="absolute inset-0 bg-[#3d176d]/15" />
               </div>
             );
           })}
-
         </div>
 
         {/* Hero Content */}
-
         <div className="relative z-20 mx-auto w-full max-w-7xl px-5 sm:px-7 md:px-8 lg:px-10 xl:px-12">
-
           <div className="flex w-full max-w-[620px] flex-col items-start justify-center py-16">
-
-            {/* Badge */}
-
             <div className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 shadow-lg backdrop-blur-sm sm:px-5 sm:py-2.5">
-
               <FaLeaf
                 className="text-[#5b2bbf]"
                 size={12}
@@ -207,15 +192,10 @@ const About = () => {
               <span className="text-[8px] font-extrabold tracking-[1.5px] text-[#5b2bbf] sm:text-[10px] sm:tracking-[2px]">
                 {currentHero.badge}
               </span>
-
             </div>
 
-            {/* Heading */}
-
             <h1 className="mt-5 text-[40px] font-extrabold leading-[0.98] text-white sm:mt-6 sm:text-5xl md:text-6xl lg:text-[64px] xl:text-[70px]">
-
               {currentHero.title1}
-
               <br />
 
               <span className="text-[#d9c4ff]">
@@ -225,25 +205,18 @@ const About = () => {
               <br />
 
               {currentHero.title2}
-
               <br />
 
               <span className="text-[#d9c4ff]">
                 {currentHero.highlight2}
               </span>
-
             </h1>
-
-            {/* Description */}
 
             <p className="mt-5 max-w-[540px] text-[13px] leading-6 text-white/90 sm:mt-6 sm:text-sm sm:leading-7 md:text-base">
               {currentHero.description}
             </p>
 
-            {/* Buttons */}
-
             <div className="mt-7 flex flex-wrap items-center gap-2 sm:gap-3">
-
               <Link
                 to="/shop"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-[#5b2bbf] px-5 py-3 text-[11px] font-bold text-white shadow-xl transition duration-300 hover:scale-105 hover:bg-[#45209a] sm:px-7 sm:py-3.5 sm:text-xs"
@@ -258,90 +231,64 @@ const About = () => {
               >
                 Our Story
               </a>
-
             </div>
 
-            {/* Rating */}
-
             <div className="mt-7 flex items-center gap-3">
-
               <div className="flex items-center gap-1 text-[#f5b800]">
                 {[1, 2, 3, 4, 5].map((star) => (
-                  <FaStar
-                    key={star}
-                    size={11}
-                  />
+                  <FaStar key={star} size={11} />
                 ))}
               </div>
 
               <span className="text-[10px] font-semibold text-white sm:text-xs">
                 4.9/5 from happy customers
               </span>
-
             </div>
-
           </div>
-
         </div>
 
-        {/* ================= CENTER SLIDER BUTTONS ================= */}
-
-        <div className="absolute left-0 top-1/2 z-40 flex w-full -translate-y-1/2 items-center justify-between px-3 sm:px-7 lg:px-12">
-
-          {/* Previous */}
-
+        {/* Slider Controls */}
+        <div className="absolute inset-x-0 bottom-7 z-30 flex items-center justify-center gap-4 px-4 sm:bottom-9 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:justify-between md:px-7 lg:px-12">
           <button
             type="button"
             onClick={previousSlide}
             aria-label="Previous slide"
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white/95 text-lg font-bold text-[#5b2bbf] shadow-xl transition duration-300 hover:scale-110 hover:bg-white sm:h-12 sm:w-12 sm:text-xl"
+            className="flex h-10 w-10 cursor-pointer shrink-0 items-center justify-center rounded-full bg-white/90 text-xl text-[#5b2bbf] shadow-lg transition duration-300 hover:scale-110 hover:bg-white md:h-11 md:w-11"
           >
             ←
           </button>
 
-          {/* Dots */}
-
-          <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2.5 sm:gap-3">
-
+          <div className="absolute left-1/2 flex -translate-x-1/2 items-center justify-center gap-3">
             {heroSlides.map((slide, index) => (
               <button
                 key={slide.id}
                 type="button"
                 onClick={() => goToSlide(index)}
                 aria-label={`Go to slide ${index + 1}`}
-                className={`rounded-full transition-all duration-500 ${
+                className={`rounded-full transition-all duration-300 ${
                   index === currentSlide
-                    ? "h-2.5 w-8 bg-white shadow-md sm:w-9"
-                    : "h-2.5 w-2.5 bg-white/60 hover:bg-white"
+                    ? "h-2 w-8 bg-white"
+                    : "h-2 w-2 bg-white/50 hover:bg-white"
                 }`}
               />
             ))}
-
           </div>
-
-          {/* Next */}
 
           <button
             type="button"
             onClick={nextSlide}
             aria-label="Next slide"
-            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white/95 text-lg font-bold text-[#5b2bbf] shadow-xl transition duration-300 hover:scale-110 hover:bg-white sm:h-12 sm:w-12 sm:text-xl"
+            className="flex h-10 w-10 cursor-pointer shrink-0 items-center justify-center rounded-full bg-white/90 text-xl text-[#5b2bbf] shadow-lg transition duration-300 hover:scale-110 hover:bg-white md:h-11 md:w-11"
           >
             →
           </button>
-
         </div>
-
       </section>
 
-      {/* ================= FEATURES ================= */}
-
+      {/* Features */}
       <section className="border-b border-gray-100 bg-white">
-
         <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8">
-
           <div className="grid grid-cols-2 lg:grid-cols-4">
-
             {features.map((feature) => {
               const Icon = feature.icon;
 
@@ -369,62 +316,40 @@ const About = () => {
                 </div>
               );
             })}
-
           </div>
-
         </div>
-
       </section>
 
-      {/* ================= ABOUT STORY ================= */}
-
+      {/* About Story */}
       <section
         id="about-story"
         className="bg-white py-20 sm:py-24"
       >
-
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
-
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
-
-            {/* Image */}
-
             <div className="relative">
-
               <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-[#e7d9ff] blur-2xl" />
 
               <div className="relative flex min-h-[420px] items-center justify-center overflow-hidden rounded-[2.5rem] bg-[#eee4ff] sm:min-h-[520px]">
-
                 <img
                   src={blueberryCan}
                   alt="Fresh fruit drink"
-                  className="w-56 max-h-[480px] object-contain drop-shadow-2xl transition duration-500 hover:scale-105 sm:w-72 lg:w-80"
+                  className="max-h-[480px] w-56 object-contain drop-shadow-2xl transition duration-500 hover:scale-105 sm:w-72 lg:w-80"
                 />
-
               </div>
-
             </div>
 
-            {/* Content */}
-
             <div>
-
               <span className="inline-flex items-center gap-2 text-xs font-extrabold uppercase tracking-[2px] text-[#5b2bbf]">
-
                 <FaSeedling size={12} />
-
                 About Our Brand
-
               </span>
 
               <h2 className="mt-4 text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
-
                 Freshness You Can{" "}
-
                 <span className="text-[#5b2bbf]">
                   Taste.
                 </span>
-
               </h2>
 
               <p className="mt-6 text-sm leading-7 text-gray-600 sm:text-base">
@@ -440,7 +365,6 @@ const About = () => {
               </p>
 
               <div className="mt-7 space-y-4">
-
                 {[
                   "Carefully selected ingredients",
                   "Delicious natural fruit flavours",
@@ -457,7 +381,6 @@ const About = () => {
                     </span>
                   </div>
                 ))}
-
               </div>
 
               <Link
@@ -467,23 +390,15 @@ const About = () => {
                 Explore Products
                 <FaArrowRight size={11} />
               </Link>
-
             </div>
-
           </div>
-
         </div>
-
       </section>
 
-      {/* ================= WHY CHOOSE US ================= */}
-
+      {/* Why Choose Us */}
       <section className="bg-[#faf8ff] py-20 sm:py-24">
-
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
-
           <div className="mx-auto max-w-2xl text-center">
-
             <span className="text-xs font-extrabold uppercase tracking-[2px] text-[#5b2bbf]">
               Why Choose Us
             </span>
@@ -496,11 +411,9 @@ const About = () => {
               Everything we do is focused on delivering delicious taste,
               freshness and quality to our customers.
             </p>
-
           </div>
 
           <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-
             {benefits.map((benefit) => {
               const Icon = benefit.icon;
 
@@ -509,7 +422,6 @@ const About = () => {
                   key={benefit.title}
                   className="rounded-3xl bg-white p-7 text-center shadow-sm transition duration-300 hover:shadow-xl"
                 >
-
                   <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#eee4ff] text-[#5b2bbf]">
                     <Icon size={23} />
                   </div>
@@ -521,43 +433,31 @@ const About = () => {
                   <p className="mt-2 text-sm leading-6 text-gray-500">
                     {benefit.description}
                   </p>
-
                 </div>
               );
             })}
-
           </div>
-
         </div>
-
       </section>
 
-      {/* ================= CTA ================= */}
-
+      {/* CTA */}
       <section className="px-5 py-20 sm:py-24">
-
         <div className="mx-auto max-w-7xl">
-
           <div className="relative overflow-hidden rounded-[2rem] bg-[#241044] px-6 py-14 text-center sm:rounded-[3rem] sm:px-12 lg:px-20">
-
             <div className="absolute -left-20 -top-20 h-60 w-60 rounded-full bg-[#5b2bbf] opacity-40 blur-3xl" />
 
             <div className="absolute -bottom-20 -right-20 h-60 w-60 rounded-full bg-[#5b2bbf] opacity-40 blur-3xl" />
 
             <div className="relative z-10">
-
               <span className="text-xs font-extrabold uppercase tracking-[2px] text-[#d9c4ff]">
                 Taste The Difference
               </span>
 
               <h2 className="mt-4 text-3xl font-extrabold text-white sm:text-4xl lg:text-5xl">
-
                 Ready For Something{" "}
-
                 <span className="text-[#d9c4ff]">
                   Fresh?
                 </span>
-
               </h2>
 
               <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/70 sm:text-base">
@@ -572,20 +472,12 @@ const About = () => {
                 Shop Our Drinks
                 <FaArrowRight size={11} />
               </Link>
-
             </div>
-
           </div>
-
         </div>
-
       </section>
-
     </main>
   );
 };
 
 export default About;
-
-
-
