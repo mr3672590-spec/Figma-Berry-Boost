@@ -258,7 +258,7 @@ const About = () => {
             type="button"
             onClick={previousSlide}
             aria-label="Previous slide"
-            className="flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-xl font-bold text-[#5b2bbf] shadow-xl transition duration-300 hover:scale-110 hover:bg-white sm:h-13 sm:w-13"
+            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white/95 text-xl font-bold text-[#5b2bbf] shadow-xl transition duration-300 hover:scale-110 hover:bg-white sm:h-13 sm:w-13"
           >
             ←
           </button>
@@ -289,7 +289,7 @@ const About = () => {
             type="button"
             onClick={nextSlide}
             aria-label="Next slide"
-            className="flex h-11 w-11 items-center justify-center rounded-full bg-white/95 text-xl font-bold text-[#5b2bbf] shadow-xl transition duration-300 hover:scale-110 hover:bg-white sm:h-13 sm:w-13"
+            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white/95 text-xl font-bold text-[#5b2bbf] shadow-xl transition duration-300 hover:scale-110 hover:bg-white sm:h-13 sm:w-13"
           >
             →
           </button>
