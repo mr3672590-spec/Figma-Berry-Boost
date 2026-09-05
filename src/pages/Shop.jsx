@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FaShoppingCart,
   FaHeart,
@@ -30,7 +30,7 @@ import sparking from "../assets/sparking.png";
 import sprit from "../assets/sprit.png";
 import tiger from "../assets/tiger.png";
 
-// ================= PRODUCT DATA =================
+// ================= PRODUCTS =================
 
 const products = [
   {
@@ -43,7 +43,6 @@ const products = [
     sales: 98,
     image: product1,
     isNew: true,
-    future: false,
   },
   {
     id: 2,
@@ -55,7 +54,6 @@ const products = [
     sales: 86,
     image: product2,
     isNew: true,
-    future: false,
   },
   {
     id: 3,
@@ -66,8 +64,6 @@ const products = [
     rating: 5,
     sales: 120,
     image: product3,
-    isNew: false,
-    future: false,
   },
   {
     id: 4,
@@ -79,7 +75,6 @@ const products = [
     sales: 76,
     image: product4,
     isNew: true,
-    future: false,
   },
   {
     id: 5,
@@ -90,8 +85,6 @@ const products = [
     rating: 5,
     sales: 150,
     image: product5,
-    isNew: false,
-    future: false,
   },
   {
     id: 6,
@@ -103,7 +96,6 @@ const products = [
     sales: 132,
     image: product6,
     isNew: true,
-    future: false,
   },
   {
     id: 7,
@@ -114,8 +106,6 @@ const products = [
     rating: 4,
     sales: 91,
     image: product7,
-    isNew: false,
-    future: false,
   },
   {
     id: 8,
@@ -127,7 +117,6 @@ const products = [
     sales: 145,
     image: product8,
     isNew: true,
-    future: false,
   },
   {
     id: 9,
@@ -138,7 +127,6 @@ const products = [
     rating: 5,
     sales: 0,
     image: pepsi,
-    isNew: false,
     future: true,
   },
   {
@@ -150,7 +138,6 @@ const products = [
     rating: 5,
     sales: 0,
     image: force,
-    isNew: false,
     future: true,
   },
   {
@@ -162,7 +149,6 @@ const products = [
     rating: 4,
     sales: 0,
     image: mojo,
-    isNew: false,
     future: true,
   },
   {
@@ -174,7 +160,6 @@ const products = [
     rating: 5,
     sales: 0,
     image: redbull,
-    isNew: false,
     future: true,
   },
   {
@@ -186,7 +171,6 @@ const products = [
     rating: 4,
     sales: 0,
     image: sparking,
-    isNew: false,
     future: true,
   },
   {
@@ -198,7 +182,6 @@ const products = [
     rating: 5,
     sales: 0,
     image: sprit,
-    isNew: false,
     future: true,
   },
   {
@@ -210,126 +193,171 @@ const products = [
     rating: 5,
     sales: 0,
     image: tiger,
-    isNew: false,
     future: true,
   },
 ];
 
-// ================= SECTION HEADING =================
-
-const SectionHeading = ({ eyebrow, title, description }) => {
-  return (
-    <div className="mb-7 text-center">
-      <p className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-green-600">
-        {eyebrow}
-      </p>
-
-      <h2 className="text-2xl font-extrabold text-gray-900 md:text-3xl">
-        {title}
-      </h2>
-
-      {description && (
-        <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-gray-500">
-          {description}
-        </p>
-      )}
-    </div>
-  );
-};
-
 // ================= PRODUCT CARD =================
 
 const ProductCard = ({ product, dark = false }) => {
+  const navigate = useNavigate();
+
+  const handleAddToCart = () => {
+    try {
+      const savedCart = localStorage.getItem("cart");
+
+      let cart = [];
+
+      if (savedCart) {
+        cart = JSON.parse(savedCart);
+      }
+
+      const existingProduct = cart.find(
+        (item) => item.id === product.id
+      );
+
+      let updatedCart;
+
+      if (existingProduct) {
+        updatedCart = cart.map((item) =>
+          item.id === product.id
+            ? {
+                ...item,
+                quantity: Number(item.quantity || 0) + 1,
+              }
+            : item
+        );
+      } else {
+        updatedCart = [
+          ...cart,
+          {
+            ...product,
+            quantity: 1,
+          },
+        ];
+      }
+
+      localStorage.setItem(
+        "cart",
+        JSON.stringify(updatedCart)
+      );
+
+      navigate("/cart");
+
+      setTimeout(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }, 100);
+    } catch (error) {
+      console.error("Add to cart error:", error);
+    }
+  };
+
   return (
     <div
-      className={`group overflow-hidden rounded-xl border transition-all duration-300 hover:-translate-y-1 ${
+      className={`group overflow-hidden rounded-2xl border transition duration-300 hover:-translate-y-1 hover:shadow-xl ${
         dark
-          ? "border-gray-700 bg-gray-800 hover:border-green-500 hover:shadow-xl"
-          : "border-gray-100 bg-white hover:border-green-100 hover:shadow-lg"
+          ? "border-white/10 bg-[#1a1a1a]"
+          : "border-gray-100 bg-white"
       }`}
     >
-      {/* Image */}
+      {/* IMAGE */}
 
       <div
-        className={`relative flex h-48 items-center justify-center overflow-hidden md:h-52 ${
-          dark ? "bg-gray-700" : "bg-gray-50"
+        className={`relative flex h-64 items-center justify-center overflow-hidden ${
+          dark ? "bg-[#222]" : "bg-[#f7f7f5]"
         }`}
       >
-        <img
-          src={product.image}
-          alt={product.name}
-          className="h-full w-full object-contain p-4 transition duration-500 group-hover:scale-105"
-        />
+        <Link
+          to={`/product/${product.id}`}
+          className="block h-full w-full cursor-pointer"
+        >
+          <img
+            src={product.image}
+            alt={product.name}
+            className="h-full w-full cursor-pointer object-contain p-5 transition duration-500 group-hover:scale-105"
+          />
+        </Link>
+
+        {/* BADGES */}
 
         {product.isNew && (
-          <span className="absolute left-3 top-3 rounded-full bg-green-600 px-2.5 py-1 text-[10px] font-bold text-white">
-            NEW
+          <span className="pointer-events-none absolute left-3 top-3 rounded-full bg-green-600 px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-white">
+            New
           </span>
         )}
 
         {product.future && (
-          <span className="absolute left-3 top-3 rounded-full bg-orange-500 px-2.5 py-1 text-[10px] font-bold text-white">
-            SOON
+          <span className="pointer-events-none absolute left-3 top-3 rounded-full bg-white px-3 py-1 text-[10px] font-bold uppercase tracking-wide text-black">
+            Future
           </span>
         )}
 
-        <button
-          className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full shadow-sm transition ${
-            dark
-              ? "bg-gray-800 text-gray-300 hover:bg-green-600 hover:text-white"
-              : "bg-white text-gray-500 hover:bg-green-600 hover:text-white"
-          }`}
-        >
-          <FaHeart className="text-xs" />
-        </button>
+        {/* ACTION BUTTONS */}
 
-        <div className="absolute inset-x-0 bottom-0 flex translate-y-full items-center justify-center gap-2 bg-black/60 py-2.5 transition duration-300 group-hover:translate-y-0">
-          <button className="flex items-center gap-1.5 rounded-md bg-white px-3 py-1.5 text-xs font-semibold text-gray-800 hover:bg-green-600 hover:text-white">
-            <FaEye />
-            Quick View
+        <div className="absolute right-3 top-3 flex flex-col gap-2">
+          <Link
+            to={`/product/${product.id}`}
+            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-white text-gray-700 opacity-0 shadow-md transition duration-300 hover:bg-green-600 hover:text-white group-hover:opacity-100"
+          >
+            <FaEye size={13} />
+          </Link>
+
+          <button
+            type="button"
+            onClick={() => {}}
+            className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-white text-gray-700 opacity-0 shadow-md transition duration-300 hover:bg-red-500 hover:text-white group-hover:opacity-100"
+          >
+            <FaHeart size={13} />
           </button>
         </div>
       </div>
 
-      {/* Content */}
+      {/* CONTENT */}
 
-      <div className="p-3.5">
+      <div className="p-5">
         <p
-          className={`mb-1 text-[10px] font-bold uppercase tracking-wider ${
+          className={`text-[11px] font-bold uppercase tracking-wider ${
             dark ? "text-green-400" : "text-green-600"
           }`}
         >
           {product.category}
         </p>
 
-        <h3
-          className={`truncate text-sm font-bold ${
-            dark ? "text-white" : "text-gray-900"
-          }`}
+        <Link
+          to={`/product/${product.id}`}
+          className="cursor-pointer"
         >
-          {product.name}
-        </h3>
+          <h3
+            className={`mt-2 line-clamp-1 cursor-pointer text-lg font-black transition ${
+              dark
+                ? "text-white hover:text-green-400"
+                : "text-gray-900 hover:text-green-600"
+            }`}
+          >
+            {product.name}
+          </h3>
+        </Link>
 
-        {/* Rating */}
+        {/* RATING */}
 
-        <div className="mt-1.5 flex items-center gap-1">
-          <div className="flex gap-0.5">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <FaStar
-                key={star}
-                className={`text-[10px] ${
-                  star <= product.rating
-                    ? "text-yellow-400"
-                    : dark
-                    ? "text-gray-600"
-                    : "text-gray-300"
-                }`}
-              />
-            ))}
-          </div>
+        <div className="mt-3 flex items-center gap-1">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <FaStar
+              key={star}
+              size={12}
+              className={
+                star <= product.rating
+                  ? "text-yellow-400"
+                  : "text-gray-300"
+              }
+            />
+          ))}
 
           <span
-            className={`text-[10px] ${
+            className={`ml-1 text-xs ${
               dark ? "text-gray-400" : "text-gray-500"
             }`}
           >
@@ -337,36 +365,34 @@ const ProductCard = ({ product, dark = false }) => {
           </span>
         </div>
 
-        {/* Price */}
+        {/* PRICE */}
 
-        <div className="mt-2 flex items-center gap-2">
+        <div className="mt-4">
           <span
-            className={`text-base font-extrabold ${
+            className={`text-xl font-black ${
               dark ? "text-white" : "text-gray-900"
             }`}
           >
             ৳{product.price}
           </span>
 
-          <span
-            className={`text-xs line-through ${
-              dark ? "text-gray-500" : "text-gray-400"
-            }`}
-          >
+          <span className="ml-2 text-xs text-gray-400 line-through">
             ৳{product.oldPrice}
           </span>
         </div>
 
-        {/* Button */}
+        {/* ADD TO CART */}
 
         <button
-          className={`mt-3 flex w-full items-center justify-center gap-2 rounded-lg py-2 text-xs font-bold transition ${
+          type="button"
+          onClick={handleAddToCart}
+          className={`mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition ${
             dark
-              ? "bg-green-600 text-white hover:bg-green-700"
+              ? "bg-white text-black hover:bg-green-500 hover:text-white"
               : "bg-gray-900 text-white hover:bg-green-600"
           }`}
         >
-          <FaShoppingCart className="text-xs" />
+          <FaShoppingCart size={14} />
           Add to Cart
         </button>
       </div>
@@ -374,406 +400,711 @@ const ProductCard = ({ product, dark = false }) => {
   );
 };
 
-// ================= SHOP =================
+// ================= SHOP PAGE =================
 
 const Shop = () => {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortOption, setSortOption] = useState("default");
-
-  // ================= NEW ARRIVALS =================
-
-  const newArrivals = useMemo(() => {
-    return products.filter((product) => product.isNew);
-  }, []);
-
-  // ================= TOP SELLING =================
-
-  const topSelling = useMemo(() => {
-    return [...products]
-      .filter((product) => !product.future)
-      .sort((a, b) => b.sales - a.sales)
-      .slice(0, 4);
-  }, []);
-
-  // ================= FUTURE COLLECTION =================
-
-  const futureCollection = useMemo(() => {
-    return products.filter((product) => product.future);
-  }, []);
-
-  // ================= FILTERED PRODUCTS =================
-
-  const filteredProducts = useMemo(() => {
-    let result = [...products];
-
-    if (selectedCategory !== "All") {
-      result = result.filter(
-        (product) => product.category === selectedCategory
-      );
-    }
-
-    if (searchTerm.trim() !== "") {
-      result = result.filter((product) =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    if (sortOption === "price-low") {
-      result.sort((a, b) => a.price - b.price);
-    }
-
-    if (sortOption === "price-high") {
-      result.sort((a, b) => b.price - a.price);
-    }
-
-    if (sortOption === "rating") {
-      result.sort((a, b) => b.rating - a.rating);
-    }
-
-    if (sortOption === "popular") {
-      result.sort((a, b) => b.sales - a.sales);
-    }
-
-    return result;
-  }, [selectedCategory, searchTerm, sortOption]);
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("All");
+  const [sort, setSort] = useState("default");
 
   // ================= CATEGORIES =================
 
   const categories = [
     {
       name: "All",
+      title: "All Products",
+      subtitle: "Complete Collection",
       image: product1,
-      count: products.length,
     },
     {
       name: "Drinks",
-      image: pepsi,
-      count: products.filter((p) => p.category === "Drinks").length,
+      title: "Drinks",
+      subtitle: "Fresh & Refreshing",
+      image: product2,
     },
     {
       name: "Fruits",
+      title: "Fruits",
+      subtitle: "Fresh & Organic",
       image: product5,
-      count: products.filter((p) => p.category === "Fruits").length,
     },
     {
       name: "Food",
+      title: "Food",
+      subtitle: "Delicious Choice",
       image: product7,
-      count: products.filter((p) => p.category === "Food").length,
     },
   ];
+
+  // ================= CATEGORY PRODUCTS =================
+
+  const categoryProducts = useMemo(() => {
+    if (category === "All") {
+      return products
+        .filter((product) => !product.future)
+        .slice(0, 8);
+    }
+
+    return products
+      .filter(
+        (product) =>
+          product.category === category &&
+          !product.future
+      )
+      .slice(0, 8);
+  }, [category]);
 
   // ================= RELATED PRODUCTS =================
 
   const relatedProducts = useMemo(() => {
-    if (selectedCategory === "All") {
-      return products.slice(0, 4);
+    let result;
+
+    if (category === "All") {
+      result = products.filter(
+        (product) => !product.future
+      );
+    } else {
+      result = products.filter(
+        (product) =>
+          product.category === category &&
+          !product.future
+      );
     }
 
-    return products
-      .filter((product) => product.category === selectedCategory)
+    return [...result]
+      .sort((a, b) => {
+        if (b.rating !== a.rating) {
+          return b.rating - a.rating;
+        }
+
+        return b.sales - a.sales;
+      })
       .slice(0, 4);
-  }, [selectedCategory]);
+  }, [category]);
+
+  // ================= FILTERED PRODUCTS =================
+
+  const filteredProducts = useMemo(() => {
+    let result = [...products];
+
+    if (category !== "All") {
+      result = result.filter(
+        (product) =>
+          product.category === category
+      );
+    }
+
+    if (search.trim() !== "") {
+      result = result.filter((product) =>
+        product.name
+          .toLowerCase()
+          .includes(search.toLowerCase())
+      );
+    }
+
+    if (sort === "low") {
+      result.sort((a, b) => a.price - b.price);
+    }
+
+    if (sort === "high") {
+      result.sort((a, b) => b.price - a.price);
+    }
+
+    if (sort === "rating") {
+      result.sort((a, b) => b.rating - a.rating);
+    }
+
+    if (sort === "sales") {
+      result.sort((a, b) => b.sales - a.sales);
+    }
+
+    return result;
+  }, [search, category, sort]);
+
+  // ================= OTHER PRODUCTS =================
+
+  const newArrivals = products.filter(
+    (product) => product.isNew
+  );
+
+  const topSelling = [...products]
+    .filter((product) => !product.future)
+    .sort((a, b) => b.sales - a.sales)
+    .slice(0, 8);
+
+  const futureCollection = products.filter(
+    (product) => product.future
+  );
+
+  // ================= CATEGORY CLICK =================
+
+  const handleCategoryClick = (categoryName) => {
+    setCategory(categoryName);
+    setSearch("");
+
+    setTimeout(() => {
+      const section =
+        document.getElementById("category-products");
+
+      if (section) {
+        window.scrollTo({
+          top: section.offsetTop - 80,
+          behavior: "smooth",
+        });
+      }
+    }, 50);
+  };
+
+  // ================= RESET =================
+
+  const handleReset = () => {
+    setSearch("");
+    setCategory("All");
+    setSort("default");
+
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }, 50);
+  };
 
   return (
-    <div className="min-h-screen bg-[#f8f9f7] text-gray-900">
-      {/* ================= HERO ================= */}
+    <main className="min-h-screen bg-[#f8f9f7]">
 
-      <section className="px-4 py-10 md:py-14">
-        <div className="mx-auto grid max-w-7xl items-center gap-7 overflow-hidden rounded-2xl bg-white px-6 py-8 shadow-sm md:grid-cols-2 md:px-10 md:py-10">
-          <div>
-            <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-green-50 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-green-700">
-              <FaCheck />
-              Fresh & Premium
-            </span>
+      {/* ==================================================
+          CATEGORIES
+      ================================================== */}
 
-            <h1 className="max-w-xl text-3xl font-extrabold leading-tight text-gray-900 md:text-4xl">
-              Fresh Products,
-              <span className="text-green-600"> Better Choices.</span>
-            </h1>
+      <section
+        id="categories"
+        className="border-b border-gray-100 bg-white px-4 py-14"
+      >
+        <div className="mx-auto max-w-7xl">
 
-            <p className="mt-3 max-w-lg text-sm leading-6 text-gray-500">
-              Discover our collection of fresh drinks, fruits, food and
-              upcoming products selected for quality and great taste.
+          <div className="mb-10 text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-green-600">
+              Explore Categories
             </p>
 
-            <div className="mt-5 flex flex-wrap gap-3">
-              <a
-                href="#all-products"
-                className="flex items-center gap-2 rounded-lg bg-green-600 px-5 py-2.5 text-xs font-bold text-white transition hover:bg-green-700"
-              >
-                Shop Now
-                <FaArrowRight />
-              </a>
+            <h1 className="mt-2 text-3xl font-black text-gray-900 md:text-4xl">
+              Shop By Category
+            </h1>
 
-              <a
-                href="#future"
-                className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-xs font-bold text-gray-700 transition hover:border-green-500 hover:text-green-600"
-              >
-                Future Collection
-                <FaChevronRight />
-              </a>
-            </div>
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-gray-500">
+              Explore our carefully selected products by
+              category and find exactly what you need.
+            </p>
           </div>
 
-          <div className="flex justify-center">
-            <div className="flex h-[250px] w-full max-w-md items-center justify-center overflow-hidden rounded-xl bg-gray-50 md:h-[300px]">
-              <img
-                src={product1}
-                alt="Fresh Products"
-                className="h-full w-full object-contain p-5 transition duration-500 hover:scale-105"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+          {/* CATEGORY CARDS */}
 
-      {/* ================= CATEGORIES ================= */}
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
 
-      <section className="px-4 py-10">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="Shop By Category"
-            title="Explore Our Categories"
-            description="Choose your favorite category and discover quality products."
-          />
-
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-            {categories.map((category) => (
+            {categories.map((item) => (
               <button
-                key={category.name}
-                onClick={() => setSelectedCategory(category.name)}
-                className={`group overflow-hidden rounded-xl border bg-white text-left transition hover:-translate-y-1 hover:shadow-md ${
-                  selectedCategory === category.name
-                    ? "border-green-500 ring-1 ring-green-500"
+                key={item.name}
+                type="button"
+                onClick={() =>
+                  handleCategoryClick(item.name)
+                }
+                className={`group cursor-pointer overflow-hidden rounded-3xl border text-left transition duration-300 hover:-translate-y-1 hover:shadow-2xl ${
+                  category === item.name
+                    ? "border-green-500 shadow-xl"
                     : "border-gray-100"
                 }`}
               >
-                <div className="flex h-24 items-center justify-center bg-gray-50 md:h-28">
+
+                {/* CATEGORY IMAGE */}
+
+                <div className="relative h-72 overflow-hidden bg-[#f7f7f5]">
+
                   <img
-                    src={category.image}
-                    alt={category.name}
-                    className="h-full w-full object-contain p-3 transition duration-300 group-hover:scale-105"
+                    src={item.image}
+                    alt={item.title}
+                    className="h-full w-full cursor-pointer object-contain p-5 transition duration-500 group-hover:scale-110"
                   />
+
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 to-transparent" />
+
+                  {category === item.name && (
+                    <div className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-green-600 text-white shadow-lg">
+                      <FaCheck size={13} />
+                    </div>
+                  )}
+
+                  <div className="absolute bottom-5 left-5">
+                    <p className="text-xs font-bold uppercase tracking-widest text-green-300">
+                      {item.subtitle}
+                    </p>
+
+                    <h3 className="mt-1 text-2xl font-black text-white">
+                      {item.title}
+                    </h3>
+                  </div>
                 </div>
 
-                <div className="p-3">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-bold text-gray-900">
-                      {category.name}
-                    </h3>
+                {/* CATEGORY FOOTER */}
 
-                    <FaChevronRight className="text-[10px] text-green-600" />
+                <div className="flex items-center justify-between bg-white p-5">
+
+                  <div>
+                    <p className="text-xs text-gray-400">
+                      Explore
+                    </p>
+
+                    <p className="mt-1 font-bold text-gray-900">
+                      {item.name === "All"
+                        ? "Complete Collection"
+                        : `Fresh ${item.name}`}
+                    </p>
                   </div>
 
-                  <p className="mt-0.5 text-[10px] text-gray-500">
-                    {category.count} Products
-                  </p>
+                  <span className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-gray-100 text-gray-700 transition group-hover:bg-green-600 group-hover:text-white">
+                    <FaArrowRight size={13} />
+                  </span>
+
                 </div>
               </button>
             ))}
+
           </div>
         </div>
       </section>
 
-      {/* ================= NEW ARRIVALS ================= */}
-
-      <section className="px-4 py-10">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="Fresh In"
-            title="New Arrivals"
-            description="Check out our latest products added to the collection."
-          />
-
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-            {newArrivals.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ================= TOP SELLING ================= */}
-
-      <section className="bg-white px-4 py-10">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="Customer Favorites"
-            title="Top Selling Products"
-            description="Our most popular products loved by customers."
-          />
-
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-            {topSelling.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ================= FUTURE COLLECTION ================= */}
+      {/* ==================================================
+          CATEGORY PRODUCTS
+      ================================================== */}
 
       <section
-        id="future"
-        className="bg-gray-900 px-4 py-10 text-white"
+        id="category-products"
+        className="bg-[#f8f9f7] px-4 py-14"
       >
         <div className="mx-auto max-w-7xl">
-          <div className="mb-7 text-center">
-            <p className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-green-400">
-              Coming Soon
-            </p>
 
-            <h2 className="text-2xl font-extrabold md:text-3xl">
-              Future Collection
-            </h2>
+          <div className="mb-8 flex items-end justify-between">
 
-            <p className="mx-auto mt-2 max-w-2xl text-sm leading-6 text-gray-400">
-              Exciting products are coming soon. Stay connected and be the
-              first to discover them.
-            </p>
-          </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-green-600">
+                {category === "All"
+                  ? "Popular Products"
+                  : `${category} Collection`}
+              </p>
 
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-            {futureCollection.map((product) => (
-              <ProductCard key={product.id} product={product} dark />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ================= ALL PRODUCTS ================= */}
-
-      <section id="all-products" className="px-4 py-10">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="Complete Collection"
-            title="All Products"
-            description="Browse our complete collection and find something you love."
-          />
-
-          {/* Search + Sort */}
-
-          <div className="mb-6 flex flex-col gap-3 rounded-xl bg-white p-3 shadow-sm md:flex-row md:items-center md:justify-between">
-            <div className="relative w-full md:max-w-sm">
-              <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-xs text-gray-400" />
-
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full rounded-lg border border-gray-200 bg-gray-50 py-2.5 pl-9 pr-3 text-xs outline-none transition focus:border-green-500 focus:bg-white"
-              />
+              <h2 className="mt-2 text-3xl font-black text-gray-900">
+                {category === "All"
+                  ? "Explore Products"
+                  : `Best ${category}`}
+              </h2>
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              {["All", "Drinks", "Fruits", "Food"].map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`rounded-lg px-3 py-2 text-xs font-bold transition ${
-                    selectedCategory === category
-                      ? "bg-green-600 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-green-50 hover:text-green-600"
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
+            <span className="hidden cursor-default items-center gap-1 text-xs font-bold text-gray-500 sm:flex">
+              {categoryProducts.length} Products
+              <FaChevronRight />
+            </span>
 
-              <select
-                value={sortOption}
-                onChange={(e) => setSortOption(e.target.value)}
-                className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs font-semibold text-gray-600 outline-none focus:border-green-500"
-              >
-                <option value="default">Sort By</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="rating">Top Rated</option>
-                <option value="popular">Most Popular</option>
-              </select>
-            </div>
           </div>
 
-          {/* Product Grid */}
-
-          {filteredProducts.length > 0 ? (
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-4">
-              {filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+          {categoryProducts.length > 0 ? (
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {categoryProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                />
               ))}
             </div>
           ) : (
-            <div className="rounded-xl bg-white px-5 py-12 text-center shadow-sm">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-100">
+            <div className="rounded-2xl bg-white p-16 text-center">
+              <h3 className="text-xl font-black text-gray-900">
+                No Products Available
+              </h3>
+
+              <p className="mt-2 text-sm text-gray-500">
+                There are no products in this category yet.
+              </p>
+            </div>
+          )}
+
+        </div>
+      </section>
+
+      {/* ==================================================
+          RELATED PRODUCTS
+      ================================================== */}
+
+      <section
+        id="related-products"
+        className="bg-white px-4 py-14"
+      >
+        <div className="mx-auto max-w-7xl">
+
+          <div className="mb-8 text-center">
+
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-green-600">
+              You May Also Like
+            </p>
+
+            <h2 className="mt-2 text-3xl font-black text-gray-900 md:text-4xl">
+              Related Products
+            </h2>
+
+            <p className="mx-auto mt-3 max-w-xl text-sm text-gray-500">
+              Discover more products that match your
+              interests and shopping preferences.
+            </p>
+
+          </div>
+
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {relatedProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+              />
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ==================================================
+          SEARCH & SORT
+      ================================================== */}
+
+      <section className="bg-[#f8f9f7] px-4 py-8">
+        <div className="mx-auto max-w-7xl">
+
+          <div className="flex flex-col gap-4 rounded-2xl bg-white p-4 shadow-sm md:flex-row md:items-center md:justify-between">
+
+            <div className="relative w-full md:max-w-md">
+
+              <FaSearch className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-gray-400" />
+
+              <input
+                type="text"
+                value={search}
+                onChange={(e) =>
+                  setSearch(e.target.value)
+                }
+                placeholder="Search products..."
+                className="w-full rounded-xl border border-gray-200 bg-gray-50 py-3 pl-11 pr-4 text-sm outline-none transition focus:border-green-500 focus:bg-white"
+              />
+
+            </div>
+
+            <select
+              value={sort}
+              onChange={(e) =>
+                setSort(e.target.value)
+              }
+              className="cursor-pointer rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm font-semibold outline-none focus:border-green-500"
+            >
+              <option value="default">
+                Sort: Default
+              </option>
+
+              <option value="low">
+                Price: Low to High
+              </option>
+
+              <option value="high">
+                Price: High to Low
+              </option>
+
+              <option value="rating">
+                Highest Rated
+              </option>
+
+              <option value="sales">
+                Best Selling
+              </option>
+            </select>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* ==================================================
+          NEW ARRIVALS
+      ================================================== */}
+
+      {search.trim() === "" &&
+        category === "All" && (
+          <section className="bg-[#f8f9f7] px-4 py-14">
+            <div className="mx-auto max-w-7xl">
+
+              <div className="mb-8 flex items-end justify-between">
+
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-green-600">
+                    Fresh Collection
+                  </p>
+
+                  <h2 className="mt-2 text-3xl font-black text-gray-900">
+                    New Arrivals
+                  </h2>
+                </div>
+
+                <span className="hidden cursor-default items-center gap-2 text-sm font-bold text-gray-500 sm:flex">
+                  Explore More
+                  <FaArrowRight />
+                </span>
+
+              </div>
+
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {newArrivals.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                  />
+                ))}
+              </div>
+
+            </div>
+          </section>
+        )}
+
+      {/* ==================================================
+          TOP SELLING
+      ================================================== */}
+
+      {search.trim() === "" &&
+        category === "All" && (
+          <section className="bg-white px-4 py-14">
+            <div className="mx-auto max-w-7xl">
+
+              <div className="mb-8 flex items-end justify-between">
+
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-green-600">
+                    Customer Favorites
+                  </p>
+
+                  <h2 className="mt-2 text-3xl font-black text-gray-900">
+                    Top Selling
+                  </h2>
+                </div>
+
+                <span className="hidden cursor-default items-center gap-2 text-sm font-bold text-gray-500 sm:flex">
+                  Best Sellers
+                  <FaArrowRight />
+                </span>
+
+              </div>
+
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {topSelling.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                  />
+                ))}
+              </div>
+
+            </div>
+          </section>
+        )}
+
+      {/* ==================================================
+          FUTURE COLLECTION
+      ================================================== */}
+
+      {search.trim() === "" &&
+        category === "All" && (
+          <section className="bg-[#111111] px-4 py-16">
+            <div className="mx-auto max-w-7xl">
+
+              <div className="mb-9 text-center">
+
+                <p className="text-xs font-bold uppercase tracking-[0.25em] text-green-400">
+                  Coming Soon
+                </p>
+
+                <h2 className="mt-2 text-3xl font-black text-white md:text-4xl">
+                  Future Collection
+                </h2>
+
+                <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-gray-400">
+                  New products are coming soon. Stay
+                  connected and discover what's next.
+                </p>
+
+              </div>
+
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {futureCollection.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    dark
+                  />
+                ))}
+              </div>
+
+            </div>
+          </section>
+        )}
+
+      {/* ==================================================
+          ALL PRODUCTS
+      ================================================== */}
+
+      <section
+        id="all-products"
+        className="bg-[#f8f9f7] px-4 py-16"
+      >
+        <div className="mx-auto max-w-7xl">
+
+          <div className="mb-8 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
+
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-green-600">
+                Our Complete Collection
+              </p>
+
+              <h2 className="mt-2 text-3xl font-black text-gray-900 md:text-4xl">
+                {search.trim() !== "" ||
+                category !== "All"
+                  ? "Search Results"
+                  : "All Products"}
+              </h2>
+            </div>
+
+            <p className="text-sm font-semibold text-gray-500">
+              {filteredProducts.length} Products Found
+            </p>
+
+          </div>
+
+          {filteredProducts.length > 0 ? (
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {filteredProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-2xl bg-white px-6 py-20 text-center shadow-sm">
+
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
                 <FaSearch className="text-gray-400" />
               </div>
 
-              <h3 className="mt-3 text-base font-bold text-gray-900">
+              <h3 className="mt-5 text-xl font-black text-gray-900">
                 No Products Found
               </h3>
 
-              <p className="mt-1 text-xs text-gray-500">
-                Try searching with a different product name.
+              <p className="mt-2 text-sm text-gray-500">
+                Try searching with a different product
+                name or category.
               </p>
 
               <button
-                onClick={() => {
-                  setSearchTerm("");
-                  setSelectedCategory("All");
-                }}
-                className="mt-4 rounded-lg bg-green-600 px-4 py-2 text-xs font-bold text-white hover:bg-green-700"
+                type="button"
+                onClick={handleReset}
+                className="mt-6 cursor-pointer rounded-xl bg-green-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-green-700"
               >
-                Show All Products
+                Reset Filters
               </button>
+
             </div>
           )}
+
         </div>
       </section>
 
-      {/* ================= RELATED PRODUCTS ================= */}
+      {/* ==================================================
+          FEATURES
+      ================================================== */}
 
-      <section className="bg-white px-4 py-10">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="You May Also Like"
-            title="Related Products"
-            description="More products you may want to explore."
-          />
+      <section className="bg-white px-4 py-14">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
 
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-            {relatedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </div>
-      </section>
+          {/* PREMIUM QUALITY */}
 
-      {/* ================= FINAL CTA ================= */}
+          <div className="cursor-default rounded-2xl border border-gray-100 bg-gray-50 p-6 transition hover:-translate-y-1 hover:shadow-lg">
 
-      <section className="px-4 py-10">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 rounded-2xl bg-green-600 px-6 py-8 text-center md:flex-row md:px-10 md:text-left">
-          <div>
-            <h2 className="text-2xl font-extrabold text-white">
-              Ready to Shop Fresh?
-            </h2>
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-100 text-green-600">
+              <FaCheck />
+            </div>
 
-            <p className="mt-1.5 text-sm text-green-50">
-              Explore our collection and find your favorite products today.
+            <h3 className="mt-5 font-black text-gray-900">
+              Premium Quality
+            </h3>
+
+            <p className="mt-2 text-sm leading-6 text-gray-500">
+              Carefully selected products with premium
+              quality.
             </p>
+
           </div>
 
-          <Link
-            to="/"
-            className="flex shrink-0 items-center gap-2 rounded-lg bg-white px-5 py-2.5 text-xs font-bold text-green-700 transition hover:bg-gray-100"
-          >
-            Back to Home
-            <FaArrowRight />
-          </Link>
+          {/* EASY SHOPPING */}
+
+          <div className="cursor-default rounded-2xl border border-gray-100 bg-gray-50 p-6 transition hover:-translate-y-1 hover:shadow-lg">
+
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-100 text-green-600">
+              <FaShoppingCart />
+            </div>
+
+            <h3 className="mt-5 font-black text-gray-900">
+              Easy Shopping
+            </h3>
+
+            <p className="mt-2 text-sm leading-6 text-gray-500">
+              Simple and smooth shopping experience for
+              everyone.
+            </p>
+
+          </div>
+
+          {/* CUSTOMER FAVORITES */}
+
+          <div className="cursor-default rounded-2xl border border-gray-100 bg-gray-50 p-6 transition hover:-translate-y-1 hover:shadow-lg">
+
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-100 text-green-600">
+              <FaHeart />
+            </div>
+
+            <h3 className="mt-5 font-black text-gray-900">
+              Customer Favorites
+            </h3>
+
+            <p className="mt-2 text-sm leading-6 text-gray-500">
+              Discover products loved by our customers.
+            </p>
+
+          </div>
+
+          {/* FAST CHECKOUT */}
+
+          <div className="cursor-default rounded-2xl border border-gray-100 bg-gray-50 p-6 transition hover:-translate-y-1 hover:shadow-lg">
+
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-green-100 text-green-600">
+              <FaArrowRight />
+            </div>
+
+            <h3 className="mt-5 font-black text-gray-900">
+              Fast Checkout
+            </h3>
+
+            <p className="mt-2 text-sm leading-6 text-gray-500">
+              Quick and convenient checkout process from
+              cart to order.
+            </p>
+
+          </div>
+
         </div>
       </section>
-    </div>
+
+    </main>
   );
 };
 
