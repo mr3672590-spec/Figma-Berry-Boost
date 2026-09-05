@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -105,19 +106,31 @@ const benefits = [
 
 const About = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [direction, setDirection] = useState("next");
 
   const currentHero = heroSlides[currentSlide];
 
   const nextSlide = () => {
+    setDirection("next");
+
     setCurrentSlide((prev) =>
       prev === heroSlides.length - 1 ? 0 : prev + 1
     );
   };
 
   const previousSlide = () => {
+    setDirection("prev");
+
     setCurrentSlide((prev) =>
       prev === 0 ? heroSlides.length - 1 : prev - 1
     );
+  };
+
+  const goToSlide = (index) => {
+    if (index === currentSlide) return;
+
+    setDirection(index > currentSlide ? "next" : "prev");
+    setCurrentSlide(index);
   };
 
   return (
@@ -127,28 +140,54 @@ const About = () => {
 
       <section className="relative flex min-h-[650px] w-full items-center justify-center overflow-hidden sm:min-h-[700px]">
 
-        {/* Background / Product Images */}
+        {/* Background Slider */}
 
-        {heroSlides.map((slide, index) => (
-          <div
-            key={slide.id}
-            className={`absolute inset-0 h-full w-full transition-opacity duration-500 ${
-              index === currentSlide
-                ? "z-10 opacity-100"
-                : "z-0 opacity-0"
-            }`}
-          >
-            <img
-              src={slide.image}
-              alt={`Hero Banner ${slide.id}`}
-              className="absolute inset-0 h-full w-full object-cover object-center"
-            />
+        <div className="absolute inset-0 overflow-hidden">
 
-            <div className="absolute inset-0 bg-black/30" />
+          {heroSlides.map((slide, index) => {
+            const isActive = index === currentSlide;
 
-            <div className="absolute inset-0 bg-[#3d176d]/15" />
-          </div>
-        ))}
+            let position = "translate-x-full";
+
+            if (isActive) {
+              position = "translate-x-0";
+            } else if (
+              direction === "next" &&
+              index ===
+                (currentSlide === 0
+                  ? heroSlides.length - 1
+                  : currentSlide - 1)
+            ) {
+              position = "-translate-x-full";
+            } else if (
+              direction === "prev" &&
+              index ===
+                (currentSlide === heroSlides.length - 1
+                  ? 0
+                  : currentSlide + 1)
+            ) {
+              position = "translate-x-full";
+            }
+
+            return (
+              <div
+                key={slide.id}
+                className={`absolute inset-0 h-full w-full transform transition-transform duration-700 ease-in-out ${position}`}
+              >
+                <img
+                  src={slide.image}
+                  alt={`Hero Banner ${slide.id}`}
+                  className="h-full w-full object-cover object-center"
+                />
+
+                <div className="absolute inset-0 bg-black/30" />
+
+                <div className="absolute inset-0 bg-[#3d176d]/15" />
+              </div>
+            );
+          })}
+
+        </div>
 
         {/* Hero Content */}
 
@@ -210,7 +249,6 @@ const About = () => {
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-[#5b2bbf] px-5 py-3 text-[11px] font-bold text-white shadow-xl transition duration-300 hover:scale-105 hover:bg-[#45209a] sm:px-7 sm:py-3.5 sm:text-xs"
               >
                 Shop Now
-
                 <FaArrowRight size={10} />
               </Link>
 
@@ -228,14 +266,12 @@ const About = () => {
             <div className="mt-7 flex items-center gap-3">
 
               <div className="flex items-center gap-1 text-[#f5b800]">
-
                 {[1, 2, 3, 4, 5].map((star) => (
                   <FaStar
                     key={star}
                     size={11}
                   />
                 ))}
-
               </div>
 
               <span className="text-[10px] font-semibold text-white sm:text-xs">
@@ -248,9 +284,9 @@ const About = () => {
 
         </div>
 
-        {/* ================= CENTER SLIDER CONTROLS ================= */}
+        {/* ================= CENTER SLIDER BUTTONS ================= */}
 
-        <div className="absolute left-0 top-1/2 z-40 flex w-full -translate-y-1/2 items-center justify-between px-4 sm:px-8 lg:px-12">
+        <div className="absolute left-0 top-1/2 z-40 flex w-full -translate-y-1/2 items-center justify-between px-3 sm:px-7 lg:px-12">
 
           {/* Previous */}
 
@@ -258,24 +294,24 @@ const About = () => {
             type="button"
             onClick={previousSlide}
             aria-label="Previous slide"
-            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white/95 text-xl font-bold text-[#5b2bbf] shadow-xl transition duration-300 hover:scale-110 hover:bg-white sm:h-13 sm:w-13"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white/95 text-lg font-bold text-[#5b2bbf] shadow-xl transition duration-300 hover:scale-110 hover:bg-white sm:h-12 sm:w-12 sm:text-xl"
           >
             ←
           </button>
 
-          {/* Center Dots */}
+          {/* Dots */}
 
-          <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-3">
+          <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2.5 sm:gap-3">
 
             {heroSlides.map((slide, index) => (
               <button
                 key={slide.id}
                 type="button"
-                onClick={() => setCurrentSlide(index)}
+                onClick={() => goToSlide(index)}
                 aria-label={`Go to slide ${index + 1}`}
-                className={`rounded-full transition-all duration-300 ${
+                className={`rounded-full transition-all duration-500 ${
                   index === currentSlide
-                    ? "h-2.5 w-9 bg-white shadow-md"
+                    ? "h-2.5 w-8 bg-white shadow-md sm:w-9"
                     : "h-2.5 w-2.5 bg-white/60 hover:bg-white"
                 }`}
               />
@@ -289,7 +325,7 @@ const About = () => {
             type="button"
             onClick={nextSlide}
             aria-label="Next slide"
-            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-white/95 text-xl font-bold text-[#5b2bbf] shadow-xl transition duration-300 hover:scale-110 hover:bg-white sm:h-13 sm:w-13"
+            className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white/95 text-lg font-bold text-[#5b2bbf] shadow-xl transition duration-300 hover:scale-110 hover:bg-white sm:h-12 sm:w-12 sm:text-xl"
           >
             →
           </button>
@@ -314,18 +350,14 @@ const About = () => {
                   key={feature.title}
                   className="flex items-center gap-3 py-6 lg:py-7"
                 >
-
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#eee4ff]">
-
                     <Icon
                       className="text-[#5b2bbf]"
                       size={15}
                     />
-
                   </div>
 
                   <div>
-
                     <h3 className="text-xs font-bold">
                       {feature.title}
                     </h3>
@@ -333,9 +365,7 @@ const About = () => {
                     <p className="mt-1 text-[10px] text-gray-500">
                       {feature.description}
                     </p>
-
                   </div>
-
                 </div>
               );
             })}
@@ -420,13 +450,11 @@ const About = () => {
                     key={item}
                     className="flex items-center gap-3"
                   >
-
                     <FaCheckCircle className="text-[#5b2bbf]" />
 
                     <span className="text-sm font-semibold">
                       {item}
                     </span>
-
                   </div>
                 ))}
 
@@ -437,7 +465,6 @@ const About = () => {
                 className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#5b2bbf] px-7 py-3.5 text-sm font-bold text-white transition hover:scale-105 hover:bg-[#45209a]"
               >
                 Explore Products
-
                 <FaArrowRight size={11} />
               </Link>
 
@@ -484,9 +511,7 @@ const About = () => {
                 >
 
                   <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#eee4ff] text-[#5b2bbf]">
-
                     <Icon size={23} />
-
                   </div>
 
                   <h3 className="mt-5 text-lg font-extrabold">
@@ -545,7 +570,6 @@ const About = () => {
                 className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-extrabold text-[#5b2bbf] shadow-xl transition hover:scale-105 hover:bg-[#f5efff]"
               >
                 Shop Our Drinks
-
                 <FaArrowRight size={11} />
               </Link>
 
@@ -562,3 +586,6 @@ const About = () => {
 };
 
 export default About;
+
+
+
