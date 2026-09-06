@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import Shop from "./pages/Shop";
 import Categories from "./pages/Categories";
 import About from "./pages/About";
-import Blog from "./pages/Blog";
+import Reviews from "./pages/Reviews";
 import Contact from "./pages/Contact";
 import Wishlist from "./pages/Wishlist";
 import Cart from "./pages/Cart";
@@ -22,26 +22,37 @@ const App = () => {
 
         <Route element={<MainLayout />}>
 
+          {/* Home */}
           <Route path="/" element={<Home />} />
 
+          {/* Shop */}
           <Route path="/shop" element={<Shop />} />
 
+          {/* Categories */}
           <Route path="/categories" element={<Categories />} />
 
+          {/* About */}
           <Route path="/about" element={<About />} />
 
-          <Route path="/blog" element={<Blog />} />
+          {/* Reviews */}
+          <Route path="/reviews" element={<Reviews />} />
 
+          {/* Contact */}
           <Route path="/contact" element={<Contact />} />
 
+          {/* Wishlist */}
           <Route path="/wishlist" element={<Wishlist />} />
 
+          {/* Cart */}
           <Route path="/cart" element={<Cart />} />
 
+          {/* Checkout */}
           <Route path="/checkout" element={<Checkout />} />
 
+          {/* Login */}
           <Route path="/login" element={<Login />} />
 
+          {/* Product Details */}
           <Route
             path="/product/:id"
             element={<ProductDetails />}
